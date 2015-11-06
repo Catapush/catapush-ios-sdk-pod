@@ -9,17 +9,15 @@
 Pod::Spec.new do |s|
   s.name             = "catapush-ios-sdk-pod"
   s.version          = "0.1.0"
-  s.summary          = "A short description of catapush-ios-sdk-pod."
+  s.summary          = "Add reliable push notifications to your app."
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!  
+
   s.description      = <<-DESC
-                       DESC
+"Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages."
+DESC
 
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/catapush-ios-sdk-pod"
+
+  s.homepage         = "https://github.com/Catapush/catapush-ios-sdk-pod"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Alessandro Chiarotto" => "chiarotto.alessandro@gmail.com" }
@@ -33,8 +31,11 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'catapush-ios-sdk-pod' => ['Pod/Assets/*.png']
   }
+  s.xcconfig = { 'LIBRARY_SEARCH_PATHS' => "$(SRCROOT)/Pods/**", 'OTHER_LDFLAGS' => '-ObjC -lxml2' }
+  s.frameworks = 'Security', 'CFNetwork','SystemConfiguration','CoreData'
+  s.libraries = 'resolv'
+  s.resource = 'CatapushKit/CatapushLibBundle.bundle'
+  s.preserve_paths = 'CatapushKit/**/*.*'
+  s.vendored_libraries = 'CatapushKit/libCatapushLib.a'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
