@@ -1,0 +1,9 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+
+target 'catapush-ios-sdk-pod_Tests', :exclusive => true do
+  pod "catapush-ios-sdk-pod", :path => "../"
+
+  
+end
