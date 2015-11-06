@@ -1,0 +1,6 @@
+framework module catapush_ios_sdk_pod {
+  umbrella header "catapush-ios-sdk-pod-umbrella.h"
+
+  export *
+  module * { export * }
+}

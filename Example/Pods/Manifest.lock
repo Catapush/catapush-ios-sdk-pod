@@ -1,0 +1,14 @@
+PODS:
+  - catapush-ios-sdk-pod (0.1.0)
+
+DEPENDENCIES:
+  - catapush-ios-sdk-pod (from `../`)
+
+EXTERNAL SOURCES:
+  catapush-ios-sdk-pod:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  catapush-ios-sdk-pod: f9a242c646bcab4edf48eb76550d49f6e64e6129
+
+COCOAPODS: 0.39.0
