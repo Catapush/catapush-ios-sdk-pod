@@ -23,6 +23,14 @@ Import ```CatapushHeaders.h``` into your application delegate as follows:
 ```ruby
 #import "CatapushHeaders.h"
 ```
+Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboard) and insert it together with a couple of credentials of your choice into your application delegate ```application:didFinishLaunchingWithOption:```:
+```ruby
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Catapush setAppKey:@"YOUR_APP_KEY"];
+    [Catapush startWithIdentifier: @"test" andPassword:@"test"];
+    return YES;
+}
+```
 
 ## Author
 
