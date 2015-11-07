@@ -20,7 +20,7 @@ DESC
   s.source           = { :git => "https://github.com/Catapush/catapush-ios-sdk-pod.git", :tag => s.version.to_s }
   s.platform     = :ios, '7.0'
   s.requires_arc = true
-  s.source_files = 'Pod/Classes/**/*'
+  s.source_files = 'Pod/Classes/**/*','CatapushKit/CatapushHeaders.h'
   s.resource_bundles = { 'catapush-ios-sdk-pod' => ['Pod/Assets/*.png'] }
   s.xcconfig = { 'LIBRARY_SEARCH_PATHS' => "$(SRCROOT)/Pods/**", 'OTHER_LDFLAGS' => '-ObjC -lxml2' }
   s.frameworks = 'Security', 'CFNetwork','SystemConfiguration','CoreData'
