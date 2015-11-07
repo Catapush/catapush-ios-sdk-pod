@@ -16,7 +16,7 @@ DESC
   s.homepage         = "https://github.com/Catapush/catapush-ios-sdk-pod"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { "Alessandro Chiarotto" => "chiarotto.alessandro@gmail.com" }
+  s.author           = { "Alessandro Chiarotto" => "alessandro@catapush.com" }
   s.source           = { :git => "https://github.com/Catapush/catapush-ios-sdk-pod.git", :tag => s.version.to_s }
   s.platform     = :ios, '7.0'
   s.requires_arc = true
