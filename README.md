@@ -53,8 +53,7 @@ In order to receive events, setup then two delegates ```<CatapushDelegate>``` e 
 ```
 and then for instances in your application delegate ```application:didFinishLaunchingWithOption```:
 ```ruby
-[Catapush setupCatapushStateDelegate:self
-       andMessagesDispatcherDelegate:self];
+[Catapush setupCatapushStateDelegate:self andMessagesDispatcherDelegate:self];
 ```
 
 ```CatapushDelegate``` handles connection events, notifying the connection state, and ```MessagesDispatchDelegate``` deliver Messages to your App
@@ -66,10 +65,10 @@ If connection is successfully, this delegate is triggered:
 ```ruby
 - (void)catapushDidConnectSuccessfully:(Catapush *)catapush
 {
-UIAlertView *connectedAV = [[UIAlertView alloc] initWithTitle:@"Connected" 
-                                                        message:@"Catapush Connected!" delegate:self 
+	UIAlertView *connectedAV = [[UIAlertView alloc] initWithTitle:@"Connected" 
+                                                          message:@"Catapush Connected!" delegate:self 
                                                 cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-[connectedAV show];
+	[connectedAV show];
 }
 ```
 Error handling comes with this delegate:
