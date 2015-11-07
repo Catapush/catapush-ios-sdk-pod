@@ -104,9 +104,31 @@ Error handling comes with this delegate:
 
 }
 ```
+##Receiving Messages
+```MessagesDispatchDelegate``` is the delegate in charge of messages dispatching. Messages are represented by a MessageIP object, and arrive in this delegate:
 
+```ruby
+-(void)libraryDidReceiveMessageIP:(MessageIP *)messageIP
+{
+    NSLog(@"Did receive IP Message with identifier: %@ and body: %@", messageIP.identifier, messageIP.body);
+}
+```
+##Reading Messages
+When you consume the received Messages, you can mark them as readed if user opened the Push Notification:
+```ruby
+-(void)libraryDidReceiveMessageIP:(MessageIP *)messageIP
+{
+    NSLog(@"Did receive IP Message with identifier: %@ and body: %@", messageIP.identifier, messageIP.body);
+    UIAlertView *connectedAV = [[UIAlertView alloc] initWithTitle:@"MyApp"
+                                                          message:messageIP.body
+                                                         delegate:self
+                                                cancelButtonTitle:@"Ok"
+                                                otherButtonTitles:nil];
 
-
+    [connectedAV show];
+    [MessageIP sendMessageReadNotification:messageIP];
+}
+```
 
 ## Author
 
