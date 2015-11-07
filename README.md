@@ -7,8 +7,6 @@ Catapush is a simple, reliable and scalable delivery API for transactional push 
 
 Get delivery confirmation with real time status for each message sent and build intelligent messaging logic in your applications 
 
-## Requirements
-
 ## Installation
 
 catapush-ios-sdk-pod is available through [CocoaPods](http://cocoapods.org). To install
@@ -17,6 +15,11 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "catapush-ios-sdk-pod"
 ```
+
+
+#QuickStart
+
+Import ```rubyCatapushHeaders.h``` into your application delegate as follows:
 
 ## Author
 
