@@ -20,6 +20,9 @@ pod "catapush-ios-sdk-pod"
 #QuickStart
 
 Import ```CatapushHeaders.h``` into your application delegate as follows:
+```ruby
+#import "CatapushHeaders.h"
+```
 
 ## Author
 
