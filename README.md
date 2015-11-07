@@ -3,14 +3,9 @@
 
 # catapush-ios-sdk-pod
 
-[![CI Status](http://img.shields.io/travis/Alessandro Chiarotto/catapush-ios-sdk-pod.svg?style=flat)](https://travis-ci.org/Alessandro Chiarotto/catapush-ios-sdk-pod)
-[![Version](https://img.shields.io/cocoapods/v/catapush-ios-sdk-pod.svg?style=flat)](http://cocoapods.org/pods/catapush-ios-sdk-pod)
-[![License](https://img.shields.io/cocoapods/l/catapush-ios-sdk-pod.svg?style=flat)](http://cocoapods.org/pods/catapush-ios-sdk-pod)
-[![Platform](https://img.shields.io/cocoapods/p/catapush-ios-sdk-pod.svg?style=flat)](http://cocoapods.org/pods/catapush-ios-sdk-pod)
+Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages.
 
-## Usage
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+Get delivery confirmation with real time status for each message sent and build intelligent messaging logic in your applications 
 
 ## Requirements
 
