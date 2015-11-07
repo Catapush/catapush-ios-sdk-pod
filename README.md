@@ -1,4 +1,4 @@
-![Catapush Logo](https://github.com/Catapush/catapush-ios-sdk-pod/master/catapush_logo.png)
+![Catapush Logo](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/catapush_logo.png)
 
 
 # catapush-ios-sdk-pod
