@@ -1,3 +1,6 @@
+![Catapush Logo](https://github.com/Catapush/catapush-ios-sdk-pod/master/catapush_logo.png)
+
+
 # catapush-ios-sdk-pod
 
 [![CI Status](http://img.shields.io/travis/Alessandro Chiarotto/catapush-ios-sdk-pod.svg?style=flat)](https://travis-ci.org/Alessandro Chiarotto/catapush-ios-sdk-pod)
