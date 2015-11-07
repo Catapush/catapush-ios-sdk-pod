@@ -130,6 +130,236 @@ When you consume the received Messages, you can mark them as readed if user open
 }
 ```
 
+#Advanced
+Let Library knows when user read message in your own View invoking this method:
+```ruby
+[MessageIP sendMessageReadNotification:messageIP];
+```
+You can always query the current connection state of the Library by using an Observer over the connection state, with folling method:
+```ruby
+[[NSNotificationCenter defaultCenter] addObserver:self 
+                                         selector:@selector(checkLibraryStatus)
+                                             name:kCatapushStatusChangedNotification
+                                           object:nil];
+```
+is possible to get the current connection state with:
+```ruby
+[Catapush status];
+```
+that returns an enum of states:
+```
+DISCONNECTED
+CONNECTING
+CONNECTED
+```
+in your selector as the one declared above:
+```ruby
+- (void)checkLibraryStatus
+{
+ NSString *statusString;
+    switch ([Catapush status]) {
+        case CONNECTED:
+            statusString = @"Connected";
+           break;
+        case DISCONNECTED:
+            statusString = @"Disconnected";
+           break;
+        case CONNECTING:
+            statusString = @"Connecting..";
+            break;              
+      }
+
+    NSLog(@"%@", statusString);
+```
+##Background Messages
+Catapush iOS SDK supports remote-notifications in order to handle background session after a Push Notification
+
+To enable this, click on ```Project target``` then move to ```Capabilities``` In ```Background modes``` section select ```Remote Notifications```
+
+Add this in ```application:didFinishLaunchingWithOptions:``` :
+```ruby
+NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+{
+    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+    [application registerForRemoteNotifications];
+
+}else{      
+    [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+}
+
+application.applicationIconBadgeNumber = 0;
+
+
+
+if ([remoteNotification[@"sender"] isEqualToString:@"catapush"]) {
+  // Wake up, it's Catapush!
+}
+```
+n the same file, add following method:
+```ruby
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [Catapush registerForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    NSLog(@"Did Fail Register Notification: %@", error);
+}
+```
+then add this to ```application:didReceiveRemoteNotification:``` :
+```ruby
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [CatapushRemoteNotifications application:application
+                   didReceiveRemoteNotification:userInfo
+                         fetchCompletionHandler:completionHandler];
+}
+```
+
+If everything is fine, you will be prompted about enabling push notifications to your App at first launch
+
+##Messages Managers
+Catapush iOS SDK manages the messages using the power of CoreData Framework. This allow an easy integration of the library and management of the ```MessageIP``` object life-cicle.
+
+CatapushCoreData exposes:
+```ruby
+    managedObjectContext
+    managedObjectModel
+    persistentStoreCoordinator
+```
+These three objects can be used with the protocol.
+
+For example to retrieve all messages stored and their changes, set up the ```NSFetchedResultsControllerDelegate``` with the desidered ```NSPredicate``` (see below).
+```ruby
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController; //handles all Messages
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+- (void)perfomFetch
+{
+    self.fetchedResultsController.delegate = self;
+
+    NSError *error;
+    BOOL success = [self.fetchedResultsController performFetch:&error];
+    //Now all messages are stored in [self.fetchedResultsController objectAtIndexPath:indexPath];
+}
+
+- (NSFetchedResultsController *)fetchedResultsController{
+
+if (!_fetchedResultsController) {
+
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"MessageIP"];
+    request.predicate = nil;
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                    managedObjectContext:self.managedObjectContext
+                                                                      sectionNameKeyPath:nil
+                                                                               cacheName:nil];
+}
+
+return _fetchedResultsController;
+}
+
+- (NSManagedObjectContext *)managedObjectContext{
+
+if (!_managedObjectContext) {
+    _managedObjectContext = [CatapushCoreData managedObjectContext];
+}
+
+return _managedObjectContext;
+}
+```
+then observe the MessageIP changes:
+```
+    Insertion
+    Updating
+    Deletion
+```
+
+with the ```NSFetchedResultsControllerDelegate``` methods
+```ruby
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+//If needed, prepare for content changes
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+        //New object fetched
+        break;
+
+        case NSFetchedResultsChangeDelete:
+        //Object deleted
+        break;
+        default:
+        break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+didChangeObject:(id)anObject
+atIndexPath:(NSIndexPath *)indexPath
+forChangeType:(NSFetchedResultsChangeType)type
+newIndexPath:(NSIndexPath *)newIndexPath
+{
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+        //New object fetched
+        break;
+
+        case NSFetchedResultsChangeDelete:
+        //Object deleted
+        break;
+
+        case NSFetchedResultsChangeUpdate:
+        //Object updated
+        break;
+
+        case NSFetchedResultsChangeMove:
+        //Object changes index in the array
+        break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    //After the changes of the fetched content
+}
+```
+Using ```NSFetchedResultsController``` is easy to fetch messages that satisfy a condition. For Example when creating NSFetchRequest to fetch all messages just set:
+```ruby
+request.predicate = nil;
+```
+i.e.
+```ruby
+NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"MessageIP"];
+request.predicate = nil;
+request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+```
+if you need the unread messages just write:
+```ruby
+request.predicate = [NSPredicate predicateWithFormat:@"status = %i", MessageIP_NOT_READ];
+```
+i.e.
+```ruby
+NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"MessageIP"];
+request.predicate = [NSPredicate predicateWithFormat:@"status = %i", MessageIP_NOT_READ];
+request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+```
+When the objects that satisfy the defined NSPredicate you will be notifies in the NSFetchedResultsControllerDelegate methods as shown above.
+
 ## Author
 
 Alessandro Chiarotto, alessandro@catapush.com
