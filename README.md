@@ -47,7 +47,7 @@ and this with:
 ```
 
 ##Events Handling
-In order to receive events, setup then two delegates ```<CatapushDelegate>``` e ```<MessagesDispatchDelegate>```, for instance your App Delegate itself :
+In order to receive events, setup then two delegates ```<CatapushDelegate>``` and ```<MessagesDispatchDelegate>```, for instance your App Delegate itself :
 ```ruby
 @interface AppDelegate () <CatapushDelegate, MessagesDispatchDelegate>
 ```
