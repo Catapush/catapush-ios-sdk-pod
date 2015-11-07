@@ -22,8 +22,8 @@ pod "catapush-ios-sdk-pod"
 
 ## Author
 
-Alessandro Chiarotto, chiarotto.alessandro@gmail.com
+Alessandro Chiarotto, alessandro@catapush.com
 
 ## License
 
-catapush-ios-sdk-pod is available under the Proprietary APIs license. See the LICENSE file for more info.
+catapush-ios-sdk-pod is available under the Commercial license. See the LICENSE file for more info.
