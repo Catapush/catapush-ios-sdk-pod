@@ -360,6 +360,10 @@ request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" 
 ```
 When the objects that satisfy the defined NSPredicate you will be notifies in the NSFetchedResultsControllerDelegate methods as shown above.
 
+##Notes
+The contribution of the Catapush static library to IPA size is 650KB.
+The size of the static library archive file  ( including differents architecture object files ) is 23MB.
+
 ## Author
 
 Alessandro Chiarotto, alessandro@catapush.com
