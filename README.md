@@ -251,7 +251,7 @@ if (!_fetchedResultsController) {
 
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"MessageIP"];
     request.predicate = nil;
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sentTime" ascending:YES]];
 
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                     managedObjectContext:self.managedObjectContext
@@ -346,7 +346,7 @@ i.e.
 ```ruby
 NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"MessageIP"];
 request.predicate = nil;
-request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sentTime" ascending:YES]];
 ```
 if you need the unread messages just write:
 ```ruby
@@ -356,7 +356,7 @@ i.e.
 ```ruby
 NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"MessageIP"];
 request.predicate = [NSPredicate predicateWithFormat:@"status = %i", MessageIP_NOT_READ];
-request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sendTime" ascending:YES]];
+request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sentTime" ascending:YES]];
 ```
 When the objects that satisfy the defined NSPredicate you will be notifies in the NSFetchedResultsControllerDelegate methods as shown above.
 
@@ -367,6 +367,7 @@ The size of the static library archive file  ( including differents architecture
 ## Author
 
 Alessandro Chiarotto, alessandro@catapush.com
+Felice De Luca, felice@catapush.com
 
 ## License
 

@@ -68,10 +68,12 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 
 @property (nonatomic, retain) NSNumber * status;
 
-- (NSString *)messageId;
-- (NSString *)sender;
-- (NSDate *)sentTime;
-- (NSString *)body;
+
+@property (readonly) NSString * messageId;
+@property (readonly) NSString * sender;
+@property (readonly) NSDate * sentTime;
+@property (readonly) NSString * body;
+
 + (void)sendMessageReadNotification:(MessageIP *)message;
 
 @end
