@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "catapush-ios-sdk-pod"
-  s.version          = "0.1.2"
+  s.version          = "0.1.3"
   s.summary          = "Add reliable push notifications to your app."
   s.description      = <<-DESC
 "Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages."
@@ -16,7 +16,7 @@ DESC
   s.homepage         = "https://github.com/Catapush/catapush-ios-sdk-pod"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { "Alessandro Chiarotto" => "alessandro@catapush.com" }
+  s.author           = { "Alessandro Chiarotto" => "alessandro@catapush.com", 			"Felice De Luca" => "felice@catapush.com" }
   s.source           = { :git => "https://github.com/Catapush/catapush-ios-sdk-pod.git", :tag => s.version.to_s }
   s.platform     = :ios, '7.0'
   s.requires_arc = true

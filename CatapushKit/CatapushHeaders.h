@@ -62,18 +62,16 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 
 /**
  *  Interface for Catapush Messages
- *  @since 1.0.0
+ *  @since 2.0.0
  */
 @interface MessageIP : NSManagedObject
 
-@property (nonatomic, retain) NSString * identifier;
-@property (nonatomic, retain) NSString * subject;
-@property (nonatomic, retain) NSString * from;
-@property (nonatomic, retain) NSDate * sendTime;
-@property (nonatomic, retain) NSString * mime_type;
 @property (nonatomic, retain) NSNumber * status;
-@property (nonatomic, retain) NSString * body;
-@property (nonatomic, retain) NSNumber * contentType;
+
+- (NSString *)messageId;
+- (NSString *)sender;
+- (NSDate *)sentTime;
+- (NSString *)body;
 + (void)sendMessageReadNotification:(MessageIP *)message;
 
 @end
