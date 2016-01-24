@@ -9,6 +9,6 @@ Released on Friday, December 15, 2016.
 
 
 #### Added
-* Replaced MessageIP sendTime property with sentTime
-* Implemented by Felice Deluca 
+* Replaced MessageIP _sendTime_ property with _sentTime_
+* Implemented by Felice De Luca 
  
