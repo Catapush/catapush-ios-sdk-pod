@@ -4,8 +4,16 @@ All notable changes to this project will be documented in this file.
 
 --- 
 
-## [1.3](https://github.com/AFNetworking/AFNetworking/releases/tag/3.0.4) (12/18/2015)
-Released on Friday, December 15, 2016. 
+## [0.1.4] (12/15/2015)
+Released on Wednesday, February 3, 2016. 
+
+
+#### Added
+* Fixed Model bugs
+
+
+## [0.1.3] (12/15/2015)
+Released on Friday, December 15, 2015. 
 
 
 #### Added
