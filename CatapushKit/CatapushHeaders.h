@@ -173,12 +173,14 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 + (void)applicationWillTerminate:(UIApplication *)application;
 
 /**
- *  Register the library to the Push Notification Service
+ *  Register the library to the Push Notification Service.
+ *  This method can be used with both 'Regular Push' or 'VoIP Push'.
+ *  With 'Regular Push' call this method in didRegisterForRemoteNotificationsWithDeviceToken: passing the received 'deviceToken'.
+ *  With 'VoIP Push' use this method in pushRegistry:didUpdatePushCredentials:forType: passing as parameter 'credentials.token'.
  *
- *  @param deviceToken device token received by APNs in the UIApplicationDelegate Push Service feedback method
+ *  @param deviceToken NSData received in device didRegisterForRemoteNotificationsWithDeviceToken: with Standard Push Service or 'credentials.token' received in pushRegistry:didUpdatePushCredentials:forType: with VoIP Push Service.
  */
 + (void)registerForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
-
 
 + (void)logoutStoredUser;
 
