@@ -26,18 +26,17 @@ Import ```CatapushHeaders.h``` into your application delegate as follows:
 Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboard) and insert it together with a couple of credentials of your choice into your application delegate ```application:didFinishLaunchingWithOption:```:
 ```ruby
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
     [Catapush setAppKey:@"YOUR_APP_KEY"];
     [Catapush startWithIdentifier: @"test" andPassword:@"test"];
-
 
     // Register for push notification Standard or VoIP based on capabilites setting in Xcode Project
     [Catapush registerUserNotification:self voIPDelegate:nil];
 
-
     return YES;
 }
 ```
-in the same file, fill following method with:
+in the same file, fill following methods with:
 ```ruby
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
@@ -51,6 +50,38 @@ and this with:
     [Catapush applicationWillEnterForeground:application];
 }
 ```
+and declare these methods:
+```ruby
+//pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    // Custom End user code, can be empty
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    NSLog(@"Did Fail Register Notification: %@", error);
+    // Custom End user code, can be empty
+}
+
+//  End developer user must be declare in order to let AOP to inject catapush library code
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    // Custom End user code, can be empty
+}
+
+// End developer user Must be declared in order to let AOP to inject catapush library code
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    // Custom End user code, can be empty
+}
+```ruby
+Catapush injects code on the above methods in order to intercept their call. The injected code will handle incoming push notification.
+
+
+
+
+
 
 ##Events Handling
 In order to receive events, setup then two delegates ```<CatapushDelegate>``` and ```<MessagesDispatchDelegate>```, for instance your App Delegate itself :
