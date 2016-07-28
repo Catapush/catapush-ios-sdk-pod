@@ -36,6 +36,12 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 
     return YES;
 }
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     [Catapush applicationDidEnterBackground:application];
@@ -228,54 +234,6 @@ in your selector as the one declared above:
 
     NSLog(@"%@", statusString);
 ```
-##Background Messages
-Catapush iOS SDK supports remote-notifications in order to handle background session after a Push Notification
-
-To enable this, click on ```Project target``` then move to ```Capabilities``` In ```Background modes``` section select ```Remote Notifications```
-
-Add this in ```application:didFinishLaunchingWithOptions:``` :
-```ruby
-NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-{
-    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-    [application registerForRemoteNotifications];
-
-}else{      
-    [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-}
-
-application.applicationIconBadgeNumber = 0;
-
-
-
-if ([remoteNotification[@"sender"] isEqualToString:@"catapush"]) {
-  // Wake up, it's Catapush!
-}
-```
-n the same file, add following method:
-```ruby
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-    [Catapush registerForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-    NSLog(@"Did Fail Register Notification: %@", error);
-}
-```
-then add this to ```application:didReceiveRemoteNotification:``` :
-```ruby
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    [CatapushRemoteNotifications application:application
-                   didReceiveRemoteNotification:userInfo
-                         fetchCompletionHandler:completionHandler];
-}
-```
-
-If everything is fine, you will be prompted about enabling push notifications to your App at first launch
 
 ##Messages Managers
 Catapush iOS SDK manages the messages using the power of CoreData Framework. This allow an easy integration of the library and management of the ```MessageIP``` object life-cicle.
