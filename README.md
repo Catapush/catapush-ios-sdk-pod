@@ -37,7 +37,7 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 }
 ```
 The method ```registerUserNotification/2``` requests registration for remote notification. If VoIP background mode in an app
-is enabled in XCode capabilites, then the method request a registration for VoIP notification.
+is enabled in XCode capabilites, then the method requests a registration for VoIP notification.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilites_xcode.png)
 
