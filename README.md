@@ -79,7 +79,9 @@ and declare these methods:
 
 ```
 
-Catapush injects code on the above methods in order to intercept their call. The injected code will handle incoming push notification.
+Catapush injects code on the above methods in order to intercept their calls once a notification is received.
+The injected code will handle incoming push notification. You can insert custom code if you have specifi needs or
+you can let the implentations empty.
 
 
 
