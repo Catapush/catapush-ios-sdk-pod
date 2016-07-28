@@ -76,7 +76,9 @@ and declare these methods:
 {
     // Custom End user code, can be empty
 }
-```ruby
+
+```
+
 Catapush injects code on the above methods in order to intercept their call. The injected code will handle incoming push notification.
 
 
