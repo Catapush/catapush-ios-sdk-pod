@@ -89,8 +89,8 @@ If you are going to use VoIP notification you can omit the following method decl
 
 ```
 
-Catapush injects code on the above methods in order to intercept their calls once a notification is received.
-The injected code will handle incoming push notification. You can insert custom code if you have specifi needs or
+Catapush injects code on the above methods in order to intercept their calls once a (standard) notification is received.
+The injected code will handle incoming push notification. You can insert custom code if you have specific needs or
 you can let the implentations empty.
 
 
