@@ -28,10 +28,11 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     [Catapush setAppKey:@"YOUR_APP_KEY"];
-    [Catapush startWithIdentifier: @"test" andPassword:@"test"];
 
     // Register for push notification Standard or VoIP based on capabilites setting in Xcode Project
     [Catapush registerUserNotification:self voIPDelegate:nil];
+
+    [Catapush startWithIdentifier: @"test" andPassword:@"test"];
 
     return YES;
 }
@@ -41,8 +42,12 @@ is enabled in XCode capabilites, then the method requests a registration for VoI
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilites_xcode.png)
 
+If VoIP is enabled, Catapush library will  display alert message and play default sound when a notification is received.
+The 2nd argument of the method is a ```VoIPNotificationDelegate``` delegate. You can implement this method, in this case Catapush
+library will not display any alert or play a sound whene the notification is received.
 
-in the same file, fill following methods with:
+
+Then in the same file, fill following methods with:
 ```ruby
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
