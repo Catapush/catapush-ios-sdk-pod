@@ -36,6 +36,17 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 
     return YES;
 }
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [Catapush applicationDidEnterBackground:application];
+}
+```
+and this with:
+```ruby
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [Catapush applicationWillEnterForeground:application];
+}
 ```
 The method ```registerUserNotification/2``` requests registration for remote notification. If VoIP background mode in an app
 is enabled in XCode capabilites, then the method requests a registration for VoIP notification.
@@ -54,20 +65,7 @@ The protocol ```VoIPNotificationDelegate``` has one method ```didReceiveIncoming
 library will not display any alert or play a sound when a notification is received.
 
 
-Then in the same file, fill following methods with:
-```ruby
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    [Catapush applicationDidEnterBackground:application];
-}
-```
-and this with:
-```ruby
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    [Catapush applicationWillEnterForeground:application];
-}
-```
+##Standard Push Notification
 If you are going to use VoIP notification you can omit the following method declarations:
 ```ruby
 #pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
