@@ -5,7 +5,7 @@
 
 Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages.
 
-Get delivery confirmation with real time status for each message sent and build intelligent messaging logic in your applications 
+Get delivery confirmation with real time status for each message sent and build intelligent messaging logic in your applications
 
 ## Installation
 
@@ -28,6 +28,12 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Catapush setAppKey:@"YOUR_APP_KEY"];
     [Catapush startWithIdentifier: @"test" andPassword:@"test"];
+
+
+    // Register for push notification Standard or VoIP based on capabilites setting in Xcode Project
+    [Catapush registerUserNotification:self voIPDelegate:nil];
+
+
     return YES;
 }
 ```
@@ -65,8 +71,8 @@ If connection is successfully, this delegate is triggered:
 ```ruby
 - (void)catapushDidConnectSuccessfully:(Catapush *)catapush
 {
-	UIAlertView *connectedAV = [[UIAlertView alloc] initWithTitle:@"Connected" 
-                                                          message:@"Catapush Connected!" delegate:self 
+	UIAlertView *connectedAV = [[UIAlertView alloc] initWithTitle:@"Connected"
+                                                          message:@"Catapush Connected!" delegate:self
                                                 cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 	[connectedAV show];
 }
@@ -95,7 +101,7 @@ Error handling comes with this delegate:
 
 	NSString *errorMsg = [NSString stringWithFormat:@"The operation %@ is failed with error:\n%@", operationName, [error localizedDescription]];
 
-	UIAlertView *flowErrorAlertView = [[UIAlertView alloc] initWithTitle:@"Error"	
+	UIAlertView *flowErrorAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                              message:errorMsg
                                                             delegate:self
                                                    cancelButtonTitle:@"Ok"
@@ -137,7 +143,7 @@ Let Library knows when user read message in your own View invoking this method:
 ```
 You can always query the current connection state of the Library by using an Observer over the connection state, with folling method:
 ```ruby
-[[NSNotificationCenter defaultCenter] addObserver:self 
+[[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(checkLibraryStatus)
                                              name:kCatapushStatusChangedNotification
                                            object:nil];
