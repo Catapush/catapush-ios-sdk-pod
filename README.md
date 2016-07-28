@@ -44,7 +44,7 @@ is enabled in XCode capabilites, then the method requests a registration for VoI
 
 If VoIP is enabled, Catapush library will  display alert message and play default sound when a notification is received.
 The 2nd argument of the method is a ```VoIPNotificationDelegate``` delegate. You can implement this method, in this case Catapush
-library will not display any alert or play a sound whene the notification is received.
+library will not display any alert or play a sound when a notification is received.
 
 
 Then in the same file, fill following methods with:
@@ -61,7 +61,7 @@ and this with:
     [Catapush applicationWillEnterForeground:application];
 }
 ```
-and declare these methods:
+If you are going to use VoIP notification you can omit the following method declarations:
 ```ruby
 #pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
