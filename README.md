@@ -52,25 +52,26 @@ and this with:
 ```
 and declare these methods:
 ```ruby
-//pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
+#pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     // Custom End user code, can be empty
 }
 
+# pragma mark
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     NSLog(@"Did Fail Register Notification: %@", error);
     // Custom End user code, can be empty
 }
 
-//  End developer user must be declare in order to let AOP to inject catapush library code
+# pragma mark End developer user must be declare in order to let AOP to inject catapush library code
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     // Custom End user code, can be empty
 }
 
-// End developer user Must be declared in order to let AOP to inject catapush library code
+# pragma mark End developer user Must be declared in order to let AOP to inject catapush library code
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     // Custom End user code, can be empty
