@@ -61,7 +61,6 @@ and declare these methods:
 # pragma mark
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-    NSLog(@"Did Fail Register Notification: %@", error);
     // Custom End user code, can be empty
 }
 
