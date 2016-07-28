@@ -40,12 +40,16 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 The method ```registerUserNotification/2``` requests registration for remote notification. If VoIP background mode in an app
 is enabled in XCode capabilites, then the method requests a registration for VoIP notification.
 
+##Background Modes
+
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilites_xcode.png)
 
 If VoIP is enabled, Catapush library will display alert message and play default sound when a notification is received
 (you don't need to write code for showing alert message).
+If you want use standard notification just select ```Remote Notification``` (and unselect Voip).
 
-The 2nd argument of the method is a ```VoIPNotificationDelegate``` delegate.The protocol ```VoIPNotificationDelegate``` has one method called when a notification is received.  You can implement this method, and write your custom code, but  Catapush
+The 2nd argument of the method ```registerUserNotification/2``` is a ```VoIPNotificationDelegate``` delegate.
+The protocol ```VoIPNotificationDelegate``` has one method ```didReceiveIncomingPushWithPayload:(PKPushPayload *)payload``` called when a notification is received.  You can implement this method, and write your custom code, but  Catapush
 library will not display any alert or play a sound when a notification is received.
 
 
