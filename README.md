@@ -42,8 +42,10 @@ is enabled in XCode capabilites, then the method requests a registration for VoI
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilites_xcode.png)
 
-If VoIP is enabled, Catapush library will  display alert message and play default sound when a notification is received.
-The 2nd argument of the method is a ```VoIPNotificationDelegate``` delegate. You can implement this method, in this case Catapush
+If VoIP is enabled, Catapush library will display alert message and play default sound when a notification is received
+(you don't need to write code for showing alert message).
+
+The 2nd argument of the method is a ```VoIPNotificationDelegate``` delegate.The protocol ```VoIPNotificationDelegate``` has one method called when a notification is received.  You can implement this method, and write your custom code, but  Catapush
 library will not display any alert or play a sound when a notification is received.
 
 
