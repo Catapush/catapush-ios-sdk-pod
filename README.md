@@ -41,6 +41,7 @@ The method ```registerUserNotification/2``` requests registration for remote not
 is enabled in XCode capabilites, then the method requests a registration for VoIP notification.
 
 ##Background Modes
+Enabling Voice Over IP.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilites_xcode.png)
 
