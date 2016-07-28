@@ -46,9 +46,7 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 {
     [Catapush applicationDidEnterBackground:application];
 }
-```
-and this with:
-```ruby
+
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [Catapush applicationWillEnterForeground:application];
