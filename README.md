@@ -197,7 +197,7 @@ You can send text messages to Catapuhs server using the following method:
 [Catapush sendMessageWithText:text];
 ```
 
-and you can monitor the statud of the message delivery with new two optional methods of the  ```MessagesDispatchDelegate```  protocol:
+and you can monitor the status of the message delivery with new two optional methods of the  ```MessagesDispatchDelegate```  protocol:
 ```ruby
 - (void)libraryDidSendMessage:(MessageIP *)message;
 - (void)libraryDidFailToSendMessage:(MessageIP *)message;
