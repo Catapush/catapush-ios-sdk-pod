@@ -215,7 +215,7 @@ typedef NS_ENUM(NSInteger, MESSAGEIP_STATUS)
     MessageIP_SENDING = 5
 };
 ```
-In case a delivery of message fails you can re-send it using:
+In case a delivery of message fails you can re-send the message using its ```messageID```:
 ```
 + (MessageIP *)sendMessageWithMessageId:(NSString *) messageId;
 ```
