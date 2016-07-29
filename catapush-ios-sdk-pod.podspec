@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "catapush-ios-sdk-pod"
-  s.version          = "0.2.5"
+  s.version          = "0.2.0"
   s.summary          = "Add reliable push notifications to your app."
   s.description      = <<-DESC
 "Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages."
