@@ -14,6 +14,7 @@
  libresolv.dylib
  SystemConfiguration.framework
  CoreData.framework
+ PushKit.framework <If available>
  
  Then needs the '-ObjC -lXml2' other linker flag in project Build Configuration
  
@@ -29,25 +30,47 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+#import <PushKit/PushKit.h>
+#endif
+
 #define CATAPUSH_ERROR_DOMAIN @"MessagingIPError"
 #define kCatapushStatusChangedNotification @"CatapushStatusChangedNotification"
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************************
+ ***            NS_ENUM                 ***
+ ******************************************/
 
 
 typedef NS_ENUM(NSInteger, MESSAGEIP_STATUS)
 {
     MessageIP_NOT_READ = 0,
     MessageIP_READ = 1,
-    MessageIP_READ_SENT_ACK = 2
+    MessageIP_READ_SENT_ACK = 2,
+    
+    MessageIP_NOT_SENT = 3,
+    MessageIP_SENT = 4,
+    MessageIP_SENDING = 5
 };
 
-typedef NS_ENUM(NSInteger, Content_Type)
+typedef NS_ENUM(NSInteger, MESSAGEIP_TYPE)
 {
-    Content_UNKNOWN = 0,
-    Content_PLAIN = 1,
-    Content_RICH = 2,
-    Content_URL = 3,
-    Content_BINARY = 4
+    MessageIP_TYPE_OUTGOING = 0,
+    MessageIP_TYPE_INCOMING = 1
 };
+
 
 
 typedef NS_ENUM(NSInteger, CatapushErrorCode)
@@ -60,14 +83,16 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 
 
 
-/**
- *  Interface for Catapush Messages
- *  @since 2.0.0
- */
+
+/******************************************
+ ***            MESSAGE IP             ***
+ ******************************************/
+
 @interface MessageIP : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * status;
 
+@property (readonly) NSNumber * type; //Outgoing or Incoming
 
 @property (readonly) NSString * messageId;
 @property (readonly) NSString * sender;
@@ -75,6 +100,28 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 @property (readonly) NSString * body;
 
 + (void)sendMessageReadNotification:(MessageIP *)message;
+
+
+//Media
+- (bool)hasMedia;
+- (UIImage *)image;
+
+
+@end
+
+
+
+
+
+
+/******************************************
+ ***            DISPATCHER              ***
+ ******************************************/
+
+
+@protocol VoIPNotificationDelegate <NSObject>
+
+-(void) didReceiveIncomingPushWithPayload:(PKPushPayload *)payload;
 
 @end
 
@@ -90,8 +137,15 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
  */
 - (void)libraryDidReceiveMessageIP:(MessageIP *)messageIP;
 
-
+//Outgoing Messages Delegate
+@optional
+- (void)libraryDidSendMessage:(MessageIP *)message;
+- (void)libraryDidFailToSendMessage:(MessageIP *)message;
 @end
+
+/******************************************
+ ***              CATAPUSH              ***
+ ******************************************/
 
 
 @class Catapush;
@@ -101,7 +155,7 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 
 - (void)catapushDidConnectSuccessfully:(Catapush *)catapush;
 - (void)catapush:(Catapush *)catapush didFailOperation:(NSString *)operationName withError:(NSError *)error;
- 
+
 @end
 
 
@@ -119,12 +173,27 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 
 + (CatapushStatus) status;
 
+
+//Messages
 + (NSArray *)allMessages;
 + (NSArray *)messagesWithPredicate:(NSPredicate *)predicate;
 
 + (void)removeAllMessages;
 + (void)removeMessage:(MessageIP *)message;
++ (MessageIP *)sendMessageWithText:(NSString *)text;
++ (MessageIP *)sendMessageWithMessageId:(NSString *) messageId;
+/**
+ *  Registers for notifying the user with the following options:
+ *  UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound.
+ *
+ *  @param voIPNotificationDelegate reference in order to receive voip notificatin payload.
+ *  If set to null, the library will present the notification to the user using default alert, otherwise it just call
+ *  the method defined in VoIPNotificationDelegate protocol without presenting the notification to the user.
+ */
++ (void) registerUserNotification:(UIResponder *) appDelegate voIPDelegate:(id<VoIPNotificationDelegate> ) voipNotificationDelegate;
 
+
+//Library Status
 + (BOOL)isConnected;
 
 /**
@@ -166,7 +235,6 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 + (NSString *)identifier;
 
 
-
 + (void)applicationDidEnterBackground:(UIApplication *)application;
 + (void)applicationDidBecomeActive:(UIApplication *)application;
 + (void)applicationWillEnterForeground:(UIApplication *)application;
@@ -184,9 +252,17 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 
 + (void)logoutStoredUser;
 
+/**
+ * Return aps environment string included in mobile provisioning profile entitlements
+ */
++ (NSString *) apsEnvironment:(NSError **) error;
 
 @end
 
+
+/******************************************
+ ***   CATAPUSH REMOTE NOTIFICATIONS    ***
+ ******************************************/
 
 /**
  * Interface for Catapush Push Notifications.
@@ -203,11 +279,20 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  *  @param completionHandler Background mode fetchCompletionHandler
  */
 + (void)application:(UIApplication *)application
-didReceiveRemoteNotification:(NSDictionary *)userInfo
-fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler;
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler;
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
++ (void)pushRegistry:(PKPushRegistry *)registry
+didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
+             forType:(NSString *)type;
+#endif
 
 @end
+
+/******************************************
+ ***        CATAPUSH CORE DATA          ***
+ ******************************************/
 
 
 @interface CatapushCoreData : NSObject
