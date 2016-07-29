@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 `catapush-ios-sdk-pod` adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+## [0.2.0] (29/07/2016)
+Released on Friday, March 29, 2016.
+
+#### Added
+* Added VoIP Push Notification support
+* Added convenient methodt for user notifications registration
+
+
 ## [0.1.5] (03/04/2016)
 Released on Friday, March 4, 2016.
 
