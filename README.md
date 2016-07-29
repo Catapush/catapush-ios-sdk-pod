@@ -202,6 +202,24 @@ and you can monitor the status of the message delivery with new two optional met
 - (void)libraryDidSendMessage:(MessageIP *)message;
 - (void)libraryDidFailToSendMessage:(MessageIP *)message;
 ```
+the delivery status of a message is stored in the ```status``` property of MessageIP class. It's possible value are list by the enum:
+```
+typedef NS_ENUM(NSInteger, MESSAGEIP_STATUS)
+{
+    MessageIP_NOT_READ = 0,
+    MessageIP_READ = 1,
+    MessageIP_READ_SENT_ACK = 2,
+
+    MessageIP_NOT_SENT = 3,
+    MessageIP_SENT = 4,
+    MessageIP_SENDING = 5
+};
+```
+In case a delivery of message fails you can re-send it using:
+```
++ (MessageIP *)sendMessageWithMessageId:(NSString *) messageId;
+```
+
 
 #Advanced
 Let Library knows when user read message in your own View invoking this method:
