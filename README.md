@@ -23,7 +23,7 @@ Import ```CatapushHeaders.h``` into your application delegate as follows:
 ```ruby
 #import "CatapushHeaders.h"
 ```
-Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboard) and insert it together with a couple of credentials of your choice into your application delegate ```application:didFinishLaunchingWithOption:```:
+Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboard) and insert it together with a couple of credentials of your choice into your application delegate:
 ```ruby
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
@@ -62,7 +62,7 @@ Enabling Voice Over IP.
 
 If VoIP is enabled, Catapush library will display alert message and play default sound when a notification is received
 (you don't need to write code for showing alert message).
-If you want use standard notification just select ```Remote Notification``` (and unselect Voip).
+If you want to use standard notification just select ```Remote Notification``` (and unselect Voip).
 
 The 2nd argument of the method ```registerUserNotification/2``` is a ```VoIPNotificationDelegate``` delegate.
 The protocol ```VoIPNotificationDelegate``` has one method ```didReceiveIncomingPushWithPayload:(PKPushPayload *)payload``` called when a notification is received.  You can implement this method, and write your custom code, but  Catapush
