@@ -190,6 +190,18 @@ When you consume the received Messages, you can mark them as readed if user open
     [MessageIP sendMessageReadNotification:messageIP];
 }
 ```
+##Sending Messages
+You can send text messages to Catapuhs server using the following method:
+
+```ruby
+[Catapush sendMessageWithText:text];
+```
+
+and you can monitor the statud of the message delivery with new two optional methods of the  ```MessagesDispatchDelegate```  protocol:
+```ruby
+- (void)libraryDidSendMessage:(MessageIP *)message;
+- (void)libraryDidFailToSendMessage:(MessageIP *)message;
+```
 
 #Advanced
 Let Library knows when user read message in your own View invoking this method:
@@ -375,7 +387,7 @@ When the objects that satisfy the defined NSPredicate you will be notifies in th
 
 ##Notes
 The contribution of the Catapush static library to IPA size is 650KB.
-The size of the static library archive file  ( including differents architecture object files ) is 23MB.
+The size of the static library archive file, compiled with ENABLE_BITCODE = 1, is 60MB (it included differents architecture object files).
 
 ## Author
 
