@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 ## [0.2.0] (29/07/2016)
-Released on Friday, March 29, 2016.
+Released on Friday, July 29, 2016.
 
 #### Added
 * Added VoIP Push Notification support
