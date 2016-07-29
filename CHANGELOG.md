@@ -8,7 +8,7 @@ Released on Friday, July 29, 2016.
 
 #### Added
 * Added VoIP Push Notification support
-* Added convenient methodt for user notifications registration
+* Added convenient method for user notifications registration
 * Compiled with ENABLE_BITCODE = 1
 
 ## [0.1.5] (03/04/2016)
