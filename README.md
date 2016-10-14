@@ -55,8 +55,8 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 The method ```registerUserNotification/2``` requests registration for remote notification. If VoIP background mode in an app
 is enabled in XCode capabilites, then the method requests a registration for VoIP notification.
 
-##Background Modes
-Enabling Remote Notification & Voice Over IP.
+##Enabling Voice Over IP Push Notifications
+Set the following capabilites in your XCode project:
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilities_remote_xcode.png)
 
@@ -69,6 +69,16 @@ If you want to use standard notification just select ```Remote Notification``` (
 The 2nd argument of the method ```registerUserNotification/2``` is a ```VoIPNotificationDelegate``` delegate.
 The protocol ```VoIPNotificationDelegate``` has one method ```didReceiveIncomingPushWithPayload:(PKPushPayload *)payload``` called when a notification is received.  You can implement this method, and write your custom code, but  Catapush
 library will not display any alert or play a sound when a notification is received.
+
+##Certificate, App Id, and Entitlements
+These are pre-requisites for setting up VoIP with Catapush.
+* Make sure your app has an explicit app id and push entitlements in Apple's Developer Portal.
+* Create a VoIP Push Certificate. This can be re-used for development and production.
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert.png)
+
+* Import the VoIP Push Certificate into Keychain Access and export as a .p12 file.
+* Upload the exported .p12 file into your Catapush Application ("Platform" menu item).
 
 
 ##Standard Push Notification
