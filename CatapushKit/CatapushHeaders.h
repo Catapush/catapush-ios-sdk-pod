@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 //Media
 - (bool)hasMedia;
 - (UIImage *)image;
-
+- (NSData *)mediaRaw;
 
 @end
 
@@ -182,6 +182,7 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 + (void)removeMessage:(MessageIP *)message;
 + (MessageIP *)sendMessageWithText:(NSString *)text;
 + (MessageIP *)sendMessageWithMessageId:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andAttachment:(UIImage *)image;
 /**
  *  Registers for notifying the user with the following options:
  *  UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound.

@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "catapush-ios-sdk-pod"
-  s.version          = "0.2.0"
-  s.summary          = "Add reliable push notifications to your app."
+  s.version          = "0.3.0"
+  s.summary          = "iOS 10 updates."
   s.description      = <<-DESC
 "Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages."
 DESC
@@ -21,7 +21,6 @@ DESC
   s.platform     = :ios, '8.1'
   s.requires_arc = true
   s.source_files = 'Pod/Classes/**/*','CatapushKit/CatapushHeaders.h'
-  s.resource_bundles = { 'catapush-ios-sdk-pod' => ['Pod/Assets/*.png'] }
   s.xcconfig = { 'LIBRARY_SEARCH_PATHS' => "$(SRCROOT)/Pods/**", 'OTHER_LDFLAGS' => '-ObjC -lxml2' }
   s.frameworks = 'Security', 'CFNetwork','SystemConfiguration','CoreData'
   s.libraries = 'resolv'
