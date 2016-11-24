@@ -35,6 +35,20 @@ Select the "My Application Name" application created in previous step and press 
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_02.png)
 
+Now you should see the following page
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_03.png)
+
+Before keep going on we ha have to create a out Certificate Signing Request (CSR).
+ 
+Step 2 - Generating a certificate request
+
+The process of generating development and production certificates is the same.
+
+You must generate a certificate request file so that you can use it to request a development SSL certificate later on. You can do this by using the Keychain Access application.
+
+Click on Certificate Assistant, and then Request a Certificate From a Certificate Authority.
+
 ## Installation
 
 catapush-ios-sdk-pod is available through [CocoaPods](http://cocoapods.org). To install
