@@ -13,7 +13,8 @@ When you receive a call from an APP you can choose what Twilio have to do, like 
 
 For example this is a simple TwilioML that only play a registered message:
 
-```<Response>
+```xml
+<Response>
 <Say voice="woman">You have reached our customer support. All our operators are busy at the moment. Please leave your message and we will do our best to call you back as soon as possibile.
 </Say>
 <Record maxLength="60" playBeep="true" timeout="3" action="http://www.your-domain.com/recording-callback"/>
@@ -30,7 +31,7 @@ After the setup in the Twilio control panel you need to integrate the Twilio SDK
 
 Twilio has a dynamic authorization system, for each Twilio Client must be associated some capabilities that allow each client to make or receive calls. The generation of the capabilities is dinamyc and must be executed each time a Twilio Client open a connection, we have implemented this simple PHP script to generate the capabilities.
 
-```
+```php
 // Generate Twilio token
 $accountSid = "INSERT_HERE_YOUR_ACCOUNT_SID"; // Your Account SID from  www.twilio.com/user/account
 $authToken = "INSERT_HERE_YOUR_AUTH_TOKEN"; // Your Auth Token from www.twilio.com/user/account
@@ -50,7 +51,7 @@ In this example only the outgoing capability is enabled so only the Client can c
 
 On the mobile application, after retriving the capabilities you can make the Voip call using the Twilio SDK
 
-```
+```Objective-C
 @property (strong,nonatomic) TCDevice *tdcDevice;
 @property (strong,nonatomic) TCConnection *tdcConnection;
 
@@ -58,7 +59,7 @@ On the mobile application, after retriving the capabilities you can make the Voi
 
 -(void) requestOutgoingColl {
 
-NSMutableURLRequest *endpoint = @”http://webservice.com/token”
+NSMutableURLRequest *endpoint = @"http://webservice.com/token"
 NSMutableURLRequest *request = [self nsMutableURLRequestWithPath:endpoint andHTTPMethod:@"POST"];
     
 [NSURLConnection asyncRequest:request success:^(NSData *data, NSURLResponse *response) {
