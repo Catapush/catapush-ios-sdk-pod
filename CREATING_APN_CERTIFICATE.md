@@ -7,15 +7,11 @@ Here are the instructions on how to set up the Apple APN push notification servi
 # Creating VoIP Services certificate
 These are pre-requisites for setting up VoIP with Catapush.
 
-* Make sure your app has an explicit app id and push entitlements in Apple's Developer Portal.
-* Create a VoIP Push Certificate. This can be re-used for development and production.
-
 Please follow this steps:
-Log in to the [iOS Dev Center](https://developer.apple.com/membercenter/index.action) and click on the Certificates, Identifiers & Profiles on the right. Click Identifiers.
+Log in to the [iOS Dev Center](https://developer.apple.com/membercenter/index.action) and click on the Certificates, Identifiers & Profiles.
 
-Go to Identifiers > App IDs.
-
-Add a new App ID clicking the "+" button.
+* Go to Identifiers > App IDs.
+* Add a new App ID clicking the "+" button.
 
 Under App ID Description enter the Name of your application, for example: "My Application Name"
 
@@ -27,6 +23,7 @@ Enter the the Bundle ID of your app.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/apns_02.png)
 
+Once you have created your application 
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_00.png)
 
