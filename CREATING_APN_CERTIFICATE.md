@@ -61,6 +61,12 @@ Now switch back to itunes and press the "Continue button". You should see the fo
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/csr_02.png)
 
+Upload the CSR generated and press the "Generate" button.
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/csr_04.png)
+
+After you’re done with the wizard, you can download the certificate which you created. The same process also applies to the production certificates. A double-click on the SSL certificate that you downloaded will start the installation process in the Keychain Access application. This certificate will be used by Catapush Push service so it can contact the APNs in order to send push notifications to your applications.
+
 
 ## Installation
 
