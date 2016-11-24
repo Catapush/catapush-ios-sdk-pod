@@ -24,15 +24,14 @@ Enter the the Bundle ID of your app.
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/apns_02.png)
 
 Once you have created your application id, select "All" in the "Certificates" section on your left and click "+" button.
-Make sure to select "VoIP Service Certificate".
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_00.png)
 
-Select the "My Application Name" application created in previous step.
+Make sure to select "VoIP Service Certificate" and press "Continue" button.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_01.png)
 
-and press continue button.
+Select the "My Application Name" application created in previous step and press "Continue" button.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_02.png)
 
