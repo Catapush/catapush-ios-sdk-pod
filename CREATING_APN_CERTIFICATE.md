@@ -57,6 +57,11 @@ When you click Continue, you will be able to save the certificate request using 
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/csr_01.png)
 
+Now switch back to itunes and press the "Continue button". You should see the following page:
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/csr_02.png)
+
+
 ## Installation
 
 catapush-ios-sdk-pod is available through [CocoaPods](http://cocoapods.org). To install
