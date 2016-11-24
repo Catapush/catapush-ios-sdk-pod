@@ -84,6 +84,11 @@ Insert username e password.
 
 Now log in to Catapush dashboard and upload the p12 generate file clicking "Platform" in you applcation.
 
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/dashboard_00.png)
+
+That's it, now you can start sending push notification!
+
+
 
 
 
