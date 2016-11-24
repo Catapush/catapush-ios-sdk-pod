@@ -7,15 +7,11 @@ Here are the instructions on how to set up the Apple APN push notification servi
 # Creating VoIP Services certificate
 These are pre-requisites for setting up VoIP with Catapush.
 
-* Make sure your app has an explicit app id and push entitlements in Apple's Developer Portal.
-* Create a VoIP Push Certificate. This can be re-used for development and production.
-
 Please follow this steps:
-Log in to the [iOS Dev Center](https://developer.apple.com/membercenter/index.action) and click on the Certificates, Identifiers & Profiles on the right. Click Identifiers.
+Log in to the [iOS Dev Center](https://developer.apple.com/membercenter/index.action) and click on the Certificates, Identifiers & Profiles.
 
-Go to Identifiers > App IDs.
-
-Add a new App ID clicking the "+" button.
+* Go to Identifiers > App IDs.
+* Add a new App ID clicking the "+" button.
 
 Under App ID Description enter the Name of your application, for example: "My Application Name"
 
@@ -27,13 +23,31 @@ Enter the the Bundle ID of your app.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/apns_02.png)
 
+Once you have created your application id, select "All" in the "Certificates" section on your left and click "+" button.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_00.png)
 
+Make sure to select "VoIP Service Certificate" and press "Continue" button.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_01.png)
 
+Select the "My Application Name" application created in previous step and press "Continue" button.
+
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_02.png)
+
+Now you should see the following page
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_03.png)
+
+Before keep going on we ha have to create a out Certificate Signing Request (CSR).
+ 
+Step 2 - Generating a certificate request
+
+The process of generating development and production certificates is the same.
+
+You must generate a certificate request file so that you can use it to request a development SSL certificate later on. You can do this by using the Keychain Access application.
+
+Click on Certificate Assistant, and then Request a Certificate From a Certificate Authority.
 
 ## Installation
 
