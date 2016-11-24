@@ -51,6 +51,12 @@ Click on Certificate Assistant, and then Request a Certificate From a Certificat
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/csr_00.png)
 
+Enter the required information and choose the Saved to disk option.
+
+When you click Continue, you will be able to save the certificate request using the name suggested by the system.
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/csr_01.png)
+
 ## Installation
 
 catapush-ios-sdk-pod is available through [CocoaPods](http://cocoapods.org). To install
