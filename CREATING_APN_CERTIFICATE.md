@@ -67,4 +67,23 @@ Upload the CSR generated and press the "Generate" button.
 
 After you’re done with the wizard, you can download the certificate which you created. The same process also applies to the production certificates. A double-click on the SSL certificate that you downloaded will start the installation process in the Keychain Access application. This certificate will be used by Catapush Push service so it can contact the APNs in order to send push notifications to your applications.
 
+Finally we upload the p12 certificate file on catapush dashboard.
+Launch the Keychain Assistant from your local Mac and from the login section, filter by the "Certificates" category. You will see an option called Apple Development iOS Push Services with the bundle of your application at the end of the option name. Expand this option, select both the certificate (Apple Development iOS Push Services: your.bundle) and the private key beneath it, then right click on them and choose Export 2 items...
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/p12_00.png)
+
+Choose p12 file format from the dropdown menu and save the file somewhere where you can access it. You could enter the password for exporting (the field can be left empty, but if you choose to enter the password then the same password must be entered on the Infobip Push web panel when registering your APNS certificate).
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/p12_01.png)
+
+Export certificate file as p12 file format pressing "Save" button.
+
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/p12_02.png)
+
+Insert username e password.
+
+Now log in to Catapush dashboard and upload the p12 generate file clicking "Platform" in you applcation.
+
+
+
 
