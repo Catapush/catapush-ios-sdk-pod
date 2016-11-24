@@ -23,7 +23,7 @@ Enter the the Bundle ID of your app.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/apns_02.png)
 
-Once you have created your application 
+Once you have created your application id, select "All" in the "Certificates" section on your left and click "+" button.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert_00.png)
 
