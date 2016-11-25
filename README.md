@@ -1,4 +1,4 @@
-![Catapush Logo](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/catapush_logo.png)
+![Catapush Logo](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/catapush_logo.png)
 
 
 # catapush-ios-sdk-pod
@@ -60,9 +60,9 @@ Note: Catapush DOES register user notification for you, so DO NOT register user 
 ##Enabling Voice Over IP Push Notifications
 Set the following capabilites in your XCode project:
 
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilities_remote_xcode.png)
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/capabilities_remote_xcode.png)
 
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/capabilities_xcode.png)
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/capabilities_xcode.png)
 
 If VoIP is enabled, Catapush library will display alert message and play default sound when a notification is received
 (you don't need to write code for showing alert message).
@@ -77,7 +77,7 @@ These are pre-requisites for setting up VoIP with Catapush.
 * Make sure your app has an explicit app id and push entitlements in Apple's Developer Portal.
 * Create a VoIP Push Certificate. This can be re-used for development and production.
 
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/voip_cert.png)
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/voip_cert.png)
 
 * Import the VoIP Push Certificate into Keychain Access and export as a .p12 file.
 * Upload the exported .p12 file into your Catapush Application ("Platform" menu item).
