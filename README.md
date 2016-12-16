@@ -117,9 +117,6 @@ you can let the implentations empty.
 
 
 
-
-
-
 ##Events Handling
 In order to receive events, setup then two delegates ```<CatapushDelegate>``` and ```<MessagesDispatchDelegate>```, for instance your App Delegate itself :
 ```ruby
