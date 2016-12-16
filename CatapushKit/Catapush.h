@@ -1,6 +1,6 @@
 //
-//  CatapushHeader.h
-//  CatapushLib
+//  Catapush.h
+//  Catapush Lib
 //
 //
 //  Copyright (c) 2015 Catapush Srl. All rights reserved.
@@ -20,7 +20,7 @@
  
  Add Catapush
     libCatapushLib.a
-    CatapushHeaders.h
+    Catapush.h
     CatapushLibBundle.bundle
  
  Make sure Copy items if needed is checked.
@@ -38,22 +38,18 @@
 #define kCatapushStatusChangedNotification @"CatapushStatusChangedNotification"
 
 
+/**
+ * Catapush Error code returned by the Catapush's start/1 method.
+ *
+ */
+enum {
+    CatapushCredentialsError
+};
 
-
-
-
-
-
-
-
-
-
-
-/******************************************
- ***            NS_ENUM                 ***
- ******************************************/
-
-
+/**
+ * Delivery status of a message.
+ *
+ */
 typedef NS_ENUM(NSInteger, MESSAGEIP_STATUS)
 {
     MessageIP_NOT_READ = 0,
@@ -65,6 +61,10 @@ typedef NS_ENUM(NSInteger, MESSAGEIP_STATUS)
     MessageIP_SENDING = 5
 };
 
+/**
+ * Message type of message.
+ *
+ */
 typedef NS_ENUM(NSInteger, MESSAGEIP_TYPE)
 {
     MessageIP_TYPE_OUTGOING = 0,
@@ -99,20 +99,25 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 @property (readonly) NSDate * sentTime;
 @property (readonly) NSString * body;
 
+
 + (void)sendMessageReadNotification:(MessageIP *)message;
 
 
 //Media
+@property (readonly) NSData *  mm;
+@property (readonly) NSString * mmType;
+@property (readonly) NSString * filename;
+
 - (bool)hasMedia;
-- (UIImage *)image;
-- (NSData *)mediaRaw;
+- (bool)isMediaReady;
+
+//Media Preview
+- (bool)hasMediaPreview;
+- (UIImage *)mediaPreview;
+
+- (void)downloadMediaWithCompletionHandler:(void (^)(NSError *error, NSData *data))completionHandler;
 
 @end
-
-
-
-
-
 
 /******************************************
  ***            DISPATCHER              ***
@@ -182,7 +187,9 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 + (void)removeMessage:(MessageIP *)message;
 + (MessageIP *)sendMessageWithText:(NSString *)text;
 + (MessageIP *)sendMessageWithMessageId:(NSString *) messageId;
-+ (MessageIP *)sendMessageWithText:(NSString *)text andAttachment:(UIImage *)image;
++ (MessageIP *)sendMessageWithText:(NSString *)text andImage:(UIImage *)image;
++ (MessageIP *)sendMessageWithText:(NSString *)text andData:(NSData *)data ofType:(NSString *)mediaType;
+
 /**
  *  Registers for notifying the user with the following options:
  *  UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound.
@@ -204,9 +211,48 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  * @param identifier user identifer
  * @param password user password
  */
-+ (void)startWithIdentifier:(NSString *)identifier andPassword:(NSString *)password;
+
++ (void)startWithIdentifier:(NSString *)identifier andPassword:(NSString *)password __attribute((deprecated(("startWithIdentifier/2 has been deprecated, use setIdentifier/2 and start/1 instead."))));
+/**
+ *  Save username and password of the user.
+ *  This method must be called before calling start/0 method.
+ *
+ *  @param identifier identifier of the user
+ *  @param password password of the user
+ *
+ */
+ 
++(void) setIdentifier:(NSString *) username andPassword:(NSString *) password;
+/**
+ *  Return the identifier of the user. The method returns nil if the Capush status is equals to LOGOUT or if the indetifer has 
+ *  never been set (using setIdentifier/2).
+ *
+ *  @return identifier of the user
+ */
++ (NSString *) userIdentifier;
+
+/**
+ * Return the password of the user. The method returns nil if the Capush status is equals to LOGOUT or if the password has
+ * never been set using setIdentifier/2
+ *
+ *  @return password of the user
+ */
++ (NSString *) userPassword;
+/**
+ *  This Methods connects the library to the host to receive Messages.
+ *  It needs the indentifier and the password of the user (see setIndetifier/2 to set user credentials).
+ *  The optional error return indicates problem that was encountered (for instance, the absence indentifier and/or password).
+ * 
+ * @param error, nil if no problem was encountered.
+ */
+
++(void) start:(NSError **) error;
 
 
+/**
+ *  Disconnect XMPP Connection, Push Notifications are still enabled
+ *
+ */
 + (void)stop;
 
 /**
@@ -228,17 +274,12 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  */
 + (void)setAppKey:(NSString *)appKey;
 
-/**
- *  User Id stored by library. If not changed this value is stored permanently.
- *
- *  @return stored identifier
- */
-+ (NSString *)identifier;
 
 
 + (void)applicationDidEnterBackground:(UIApplication *)application;
 + (void)applicationDidBecomeActive:(UIApplication *)application;
-+ (void)applicationWillEnterForeground:(UIApplication *)application;
++ (void)applicationWillEnterForeground:(UIApplication *)application __attribute((deprecated(("applicationWillEnterForeground/1 has been deprecated, use applicationWillEnterForeground/2 instead."))));;
++ (void)applicationWillEnterForeground:(UIApplication *)application withError:(NSError **) error;
 + (void)applicationWillTerminate:(UIApplication *)application;
 
 /**
@@ -251,6 +292,13 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  */
 + (void)registerForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
 
+/**
+ * Logout the user:
+ * 1) Disconnect XMPP Connection
+ * 2) Remove User data from local storage
+ * 3) Disable Push notifications removing device token from Catapush Server
+ *
+ */
 + (void)logoutStoredUser;
 
 /**
@@ -294,7 +342,6 @@ didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
 /******************************************
  ***        CATAPUSH CORE DATA          ***
  ******************************************/
-
 
 @interface CatapushCoreData : NSObject
 + (NSManagedObjectContext *)managedObjectContext;
