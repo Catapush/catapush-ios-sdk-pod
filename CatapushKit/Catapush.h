@@ -246,7 +246,7 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  * @param error, nil if no problem was encountered.
  */
 
-+(void) start:(NSError **) error;
++(BOOL) start:(NSError **) error;
 
 
 /**
@@ -278,8 +278,7 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 
 + (void)applicationDidEnterBackground:(UIApplication *)application;
 + (void)applicationDidBecomeActive:(UIApplication *)application;
-+ (void)applicationWillEnterForeground:(UIApplication *)application __attribute((deprecated(("applicationWillEnterForeground/1 has been deprecated, use applicationWillEnterForeground/2 instead."))));;
-+ (void)applicationWillEnterForeground:(UIApplication *)application withError:(NSError **) error;
++ (BOOL)applicationWillEnterForeground:(UIApplication *)application withError:(NSError **) error;
 + (void)applicationWillTerminate:(UIApplication *)application;
 
 /**
