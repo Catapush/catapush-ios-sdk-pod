@@ -9,7 +9,7 @@ Get delivery confirmation with real time status for each message sent and build 
 
 ## Installation
 
-catapush-ios-sdk-pod is available through [CocoaPods](http://cocoapods.org). To install
+Catapush iOS sdk is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
@@ -236,7 +236,7 @@ Let Library knows when user read message in your own View invoking this method:
 ```ruby
 [MessageIP sendMessageReadNotification:messageIP];
 ```
-You can always query the current connection state of the Library by using an Observer over the connection state, with folling method:
+You can always query the current connection state of the Library by using an Observer over the connection state, with the following method:
 ```ruby
 [[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(checkLibraryStatus)
