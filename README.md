@@ -271,6 +271,7 @@ in your selector as the one declared above:
       }
 
     NSLog(@"%@", statusString);
+}
 ```
 
 ##Messages Managers
