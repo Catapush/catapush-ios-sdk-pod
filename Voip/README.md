@@ -47,6 +47,9 @@ $responseData = array();
 $responseData['twilio'] = array(
 'token' => $token,
 );
+
+header('Content-type: application/json');
+echo json_encode( $responseData );
 ```
 In this example only the outgoing capability is enabled so only the Client can call the backend server and not viceversa.
 
