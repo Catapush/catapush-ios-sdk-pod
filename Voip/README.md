@@ -1,6 +1,6 @@
 ## Catapush and VoIP
 
-Catapush uses Voip Push Notification ([PushKit framework](https://developer.apple.com/reference/pushkit)) this guarantee high priority push and the ability to start the application also if is inactive. To use this type of notifications your APP *MUST* contains a Voip functionality or the APP cannot pass the Apple review process for the Apple Store pubblication. If your application doesn't has already a Voip functionality you can add it quickly following this tutorial.
+Catapush uses Voip Push Notifications ([PushKit framework](https://developer.apple.com/reference/pushkit)) this guarantee high priority push and the ability to start the application also if is inactive. To use this type of notifications your APP *MUST* contains a Voip functionality or the APP cannot pass the Apple review process for the Apple Store pubblication. If your application doesn't has already a Voip functionality you can add it quickly following this tutorial.
 
 You can add to your application an easy help desk support functionality via Voip, the user can call the "virtual number" to receive information or for customer support and you can register the request. With this easy and simple Voip functionality you can pass the Apple review process with Voip Push Notifications enabled. 
 
