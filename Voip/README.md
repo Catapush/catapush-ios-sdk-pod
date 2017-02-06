@@ -32,12 +32,26 @@ After the setup in the Twilio control panel you need to integrate the Twilio SDK
 Twilio has a dynamic authorization system, for each Twilio Client must be associated some capabilities that allow each client to make or receive calls. The generation of the capabilities is dinamyc and must be executed each time a Twilio Client open a connection, we have implemented this simple PHP script to generate the capabilities.
 
 ```php
+<?php
 // Generate Twilio token
+
+// https://www.twilio.com/docs/api/client/capability-tokens
+
+// composer require twilio/sdk
 // NOTE: you have to include the Twilio PHP SDK
+// https://www.twilio.com/docs/libraries/php
+
+// composer require twilio/sdk
+
+// Required if your environment does not handle autoloading
+require __DIR__ . '/vendor/autoload.php';
+
+use Twilio\Jwt\ClientToken;
+
 $accountSid = "INSERT_HERE_YOUR_ACCOUNT_SID"; // Your Account SID from  www.twilio.com/user/account
 $authToken = "INSERT_HERE_YOUR_AUTH_TOKEN"; // Your Auth Token from www.twilio.com/user/account
 $applicationSid = "INSERT_HERE_YOUR_APPLICATION_SID"; // Twilio Application Sid
-$capability = new \Services_Twilio_Capability($accountSid, $authToken);
+$capability = new ClientToken($accountSid, $authToken);
 $capability->allowClientOutgoing($applicationSid);
 $expireSeconds = 300;
 $token = $capability->generateToken($expireSeconds);
@@ -50,6 +64,7 @@ $responseData['twilio'] = array(
 
 header('Content-type: application/json');
 echo json_encode( $responseData );
+
 ```
 In this example only the outgoing capability is enabled so only the Client can call the backend server and not viceversa.
 
