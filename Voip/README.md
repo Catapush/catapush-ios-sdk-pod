@@ -23,7 +23,38 @@ For example this is a simple TwilioML that only play a registered message:
 </Response>
 ```
 
-In this way you can register the request of the user and call back him later.
+In this way you can register the request of the user and call back him later. In this example in the Record element is present a callback you your server, in this callback you can do some action to register the event, for example:
+
+```php
+<?php
+	// http://www.your-domain.com/recording-callback
+	
+	$recordingUrl = @$_GET['RecordingUrl'];
+	$recordingDuration = @$_GET['RecordingDuration'];
+	$digits = @$_GET['Digits'];
+	
+	if ($recordingUrl && $recordingDuration) {
+		$emailBody = "Received following parameters:"."\r\n\r\n".
+			"RecordingUrl: ".htmlentities($recordingUrl, ENT_QUOTES)."\r\n\r\n".
+			"RecordingDuration: ".htmlentities($recordingDuration, ENT_QUOTES)."\r\n\r\n".
+			"Digits: ".htmlentities($digits, ENT_QUOTES)."\r\n\r\n";
+		$emailSubject = 'Received Twilio Recording';
+
+		mail("name@email.com", $emailSubject, $emailBody);
+	}
+
+	$response = '<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+<Say voice="woman">Thank you for your message.</Say>
+<Hangup/>
+</Response>';
+
+	header('Content-type: text/xml');
+	echo $response;
+```
+
+
+
 
 After the setup in the Twilio control panel you need to integrate the Twilio SDK to you APP. With CocoaPod you can simple use:
 
