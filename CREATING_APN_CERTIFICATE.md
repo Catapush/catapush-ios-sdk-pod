@@ -1,6 +1,8 @@
 # Creating VoIP Push notifications certificate
 
-Catapush use VoIP Push Notifications (PushKit) as a component of its reliable and secure push message delivery system, to setup the system correctly you have to create a certificate on [iOS Dev Center](https://developer.apple.com/membercenter/index.action), export it and upload on Catapush control panel.
+Catapush use Voip Push Notifications (PushKit) as a component of its reliable and secure push message delivery system.
+
+Here are the instructions on how to set up the Apple APN Push Notifications Services, to setup the system correctly you have to create a certificate on [iOS Dev Center](https://developer.apple.com/membercenter/index.action), export it and upload on [Catapush Dashboard](http://www.catapush.com/panel/dashboard).
 
 Log in to the [iOS Dev Center](https://developer.apple.com/membercenter/index.action) and click on the **"Certificates, Identifiers & Profiles"**.
 
@@ -57,20 +59,18 @@ Upload the CSR generated and press the **"Generate"** button.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/csr_04.png)
 
-After you're done the wizard, you can download the certificate which you have created. A double-click on the SSL certificate that you downloaded will start the installation process in the Keychain Access application. This certificate will be used by Catapush Push service so it can contact the APNs in order to send push notifications to your applications.
-
-Finally you have to upload the .p12 certificate file on Catapush Dashboard.
-Launch the Keychain Assistant from your local Mac and from the login section, filter by the **"Certificates"** category. You will see an entry called "VoIP Services: your.bundle.id" with the bundle of your application. Expand this entry, select both the certificates (VoIP Services: your.bundle.id) and the private key beneath it, then right click on them and choose **"Export 2 items"**
+After you're done the wizard, you can download the certificate which you have created. A double-click on the certificate that you downloaded will start the installation process in the *Keychain Access application*. This certificate will be used by Catapush so it can contact the APNs in order to send push notifications to your application.
+Launch the *Keychain Access application* from your local Mac and from the *login* section, filter by the *"Certificates"* category. You will see an entry called **"VoIP Services: your.bundle.id"** with the bundle of your application. Expand this entry, select both the certificates: **"VoIP Services: your.bundle.id"** and the private key, then right click on them and choose **"Export 2 items"**
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/p12_00.png)
 
-Choose ".p12" file format from the dropdown menu and save the file somewhere where you can access it. You could enter the password for exporting (the field can be left empty, but if you choose to enter the password then the same password must be entered on the Catapush Dashboard).
+Choose **".p12"** file format from the dropdown menu and save the file somewhere where you can access it. You could enter the password for exporting (the field can be left empty, if you choose to use a password then the same password must be entered on the [Catapush Dashboard](http://www.catapush.com/panel/dashboard)).
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/p12_01.png)
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/p12_02.png)
 
-Now log in to Catapush Dashboard and upload the ".p12" generate file in the "Platform" section of your applcation.
+Now log in to [Catapush Dashboard](http://www.catapush.com/panel/dashboard) and upload the **".p12"** generate file in the **"Platform"** section of your applcation.
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/dashboard_00.png)
 
