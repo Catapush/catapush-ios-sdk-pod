@@ -35,11 +35,7 @@ Now you should see the following page
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/voip_cert_03.png)
 
-Before keep going on we ha have to create our **Certificate Signing Request (CSR)**.
- 
-The process of generating development and production certificates is the same.
-
-You must generate a certificate request file so that you can use it to request the certificate, you can do it by using the **Keychain Application**.
+You must generate a **Certificate Signing Request (CSR)** so that you can use it to request the certificate, you can do it by using the **Keychain Application**.
 
 Click on **Certificate Assistant**, and then **Request a Certificate From a Certificate Authority**.
 
@@ -51,8 +47,7 @@ When you click **"Continue"**, you will be able to save the certificate request 
 
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/csr_01.png)
 
-Now switch back to iOS Dev Center and press the **"Continue"** button. You should see the following page:
-
+te
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/csr_02.png)
 
 Upload the CSR generated and press the **"Generate"** button.
