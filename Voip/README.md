@@ -1,17 +1,17 @@
 ## Catapush and VoIP
 
-Catapush uses Voip Push Notifications ([PushKit framework](https://developer.apple.com/reference/pushkit)) this guarantee high priority push and the ability to start the application also if is inactive. To use this type of notifications your APP *MUST* contains a Voip functionality or the APP cannot pass the Apple review process for the Apple Store pubblication. If your application doesn't has already a Voip functionality you can add it quickly following this tutorial.
+Catapush use Voip Push Notifications ([PushKit framework](https://developer.apple.com/reference/pushkit)) this type of notifications guarantee high priority push and the ability to start the application also if is inactive (not running). To use this type of notifications your APP *MUST* contains a Voip functionality or the APP cannot pass the Apple review process for the Apple Store pubblication. If your application doesn't has already a Voip functionality you can add it quickly following this tutorial.
 
-You can add to your application an easy help desk support functionality via Voip, the user can call the "virtual number" to receive information or for customer support and you can register the request. With this easy and simple Voip functionality you can pass the Apple review process with Voip Push Notifications enabled. 
+You can add to your application an easy customer support functionality via Voip, the user can call the "virtual number" to receive information and you can register the request. With this easy and simple Voip functionality you can pass the Apple review process with Voip Push Notifications feature enabled. 
 
-To add this type of voice channel in your App you can use [Twilio](https://www.twilio.com/), you can find here the steps to do it.
+To add this type of Voip channel in your App you can use [Twilio](https://www.twilio.com/), you can find here the steps to do it.
 
 ## Twilio Integration Guide
 First of all you have to create an account on [Twilio](https://www.twilio.com/), then in the Twilio control panel, in the "Programmable Voice" section you have to create a "TwilML App". You have to set a Callback URL to manage the calls generated from the APP. At each "TwilML App" is associated an "app_id", this value is used by the SDK of Twilio to integrate in your APP.
 
-When you receive a call from an APP you can choose what Twilio have to do, like forwading the call to a telephone exchange or reply directly with an IVR. It's easy with Twilio to create an IVR, you can do it creating a "Programmable Voice". In the callback specified on the creation of the "TwilML App" you have to setup a web page that responds with a correct TwilioML.
+When you receive a call from an APP you can choose what Twilio have to do, like forwarding the call to a telephone exchange or reply directly with an IVR. It's easy with Twilio to create an IVR, you can do it creating a "Programmable Voice". For the URL specified as callback, on the creation of the "TwilML App", you have to setup a web page that responds with a correct TwilioML.
 
-For example this is a simple TwilioML that only play a registered message:
+For example this is a simple TwilioML that play a registered message and then thanks the user for the message:
 
 ```xml
 <Response>
@@ -23,11 +23,11 @@ For example this is a simple TwilioML that only play a registered message:
 </Response>
 ```
 
-In this way you can register the request of the user and call back him later. In this example in the Record element is present a callback you your server, in this callback you can do some action to register the event, for example:
+In this way Twilio will register the request of the user, you can the listen it and call back him later. In this example in the ```<Record>``` element is present a callback to your server, in this callback you can do some action to be notified for the event, for example: 
 
 ```php
 <?php
-	// http://www.your-domain.com/recording-callback
+	// URL: http://www.your-domain.com/recording-callback
 	
 	$recordingUrl = @$_GET['RecordingUrl'];
 	$recordingDuration = @$_GET['RecordingDuration'];
@@ -53,14 +53,11 @@ In this way you can register the request of the user and call back him later. In
 	echo $response;
 ```
 
-
-
-
 After the setup in the Twilio control panel you need to integrate the Twilio SDK to you APP. With CocoaPod you can simple use:
 
 ```pod 'TwilioSDK', '~>1.2 '```
 
-Twilio has a dynamic authorization system, for each Twilio Client must be associated some capabilities that allow each client to make or receive calls. The generation of the capabilities is dinamyc and must be executed each time a Twilio Client open a connection, we have implemented this simple PHP script to generate the capabilities.
+Twilio has a dynamic authorization system, each Twilio Client must be associated some capabilities that allow each client to make or receive calls. The generation of the capabilities is dinamyc and must be executed each time a Twilio Client open a connection, we have implemented this simple PHP script to generate the capabilities.
 
 ```php
 <?php
@@ -68,10 +65,7 @@ Twilio has a dynamic authorization system, for each Twilio Client must be associ
 
 // https://www.twilio.com/docs/api/client/capability-tokens
 
-// composer require twilio/sdk
-// NOTE: you have to include the Twilio PHP SDK
 // https://www.twilio.com/docs/libraries/php
-
 // composer require twilio/sdk
 
 // Required if your environment does not handle autoloading
@@ -130,5 +124,5 @@ NSMutableURLRequest *request = [self nsMutableURLRequestWithPath:endpoint andHTT
 }];
 }
 ```
-You can find a detailed tutorial on how to integrate the SDK in the [Twilio Official Documentation](https://www.twilio.com/docs/quickstart/client/ios)
+You can find a more detailed tutorial on how to integrate the SDK in the [Twilio Official Documentation](https://www.twilio.com/docs/quickstart/client/ios)
 
