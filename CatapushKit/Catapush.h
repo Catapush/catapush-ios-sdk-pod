@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 
 
 + (void)sendMessageReadNotification:(MessageIP *)message;
-
++ (void)sendMessageReadNotificationWithId:(NSString *)messageId;
 
 //Media
 @property (readonly) NSData *  mm;
@@ -246,7 +246,7 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  * @param error, nil if no problem was encountered.
  */
 
-+(BOOL) start:(NSError **) error;
++(void) start:(NSError **) error;
 
 
 /**
@@ -278,7 +278,8 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 
 + (void)applicationDidEnterBackground:(UIApplication *)application;
 + (void)applicationDidBecomeActive:(UIApplication *)application;
-+ (BOOL)applicationWillEnterForeground:(UIApplication *)application withError:(NSError **) error;
++ (void)applicationWillEnterForeground:(UIApplication *)application __attribute((deprecated(("applicationWillEnterForeground/1 has been deprecated, use applicationWillEnterForeground/2 instead."))));;
++ (void)applicationWillEnterForeground:(UIApplication *)application withError:(NSError **) error;
 + (void)applicationWillTerminate:(UIApplication *)application;
 
 /**
