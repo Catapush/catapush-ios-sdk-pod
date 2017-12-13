@@ -123,7 +123,7 @@ you can let the implentations empty.
 
 
 
-##Events Handling
+## Events Handling
 In order to receive events, setup then two delegates ```<CatapushDelegate>``` and ```<MessagesDispatchDelegate>```, for instance your App Delegate itself :
 ```ruby
 @interface AppDelegate () <CatapushDelegate, MessagesDispatchDelegate>
@@ -181,7 +181,7 @@ Error handling comes with this delegate:
 
 }
 ```
-##Receiving Messages
+## Receiving Messages
 ```MessagesDispatchDelegate``` is the delegate in charge of messages dispatching. Messages are represented by a MessageIP object, and arrive in this delegate:
 
 ```ruby
@@ -190,7 +190,7 @@ Error handling comes with this delegate:
     NSLog(@"Did receive IP Message with identifier: %@ and body: %@", messageIP.identifier, messageIP.body);
 }
 ```
-##Reading Messages
+## Reading Messages
 When you consume the received Messages, you can mark them as readed if user opened the Push Notification:
 ```ruby
 -(void)libraryDidReceiveMessageIP:(MessageIP *)messageIP
@@ -206,7 +206,7 @@ When you consume the received Messages, you can mark them as readed if user open
     [MessageIP sendMessageReadNotification:messageIP];
 }
 ```
-##Sending Messages
+## Sending Messages
 You can send text messages to Catapuhs server using the following method:
 
 ```ruby
@@ -235,9 +235,33 @@ In case a delivery of message fails you can re-send the message using its ```mes
 ```
 + (MessageIP *)sendMessageWithMessageId:(NSString *) messageId;
 ```
+# Multiuser
+If your client app require a multi user experience you have to logout the current session, in particular calling this static method:
+```ruby
++ (void)logoutStoredUser;
+```
+the SDK:
+ * 1) Disconnect XMPP Connection
+ * 2) Remove User data from local storage
+ * 3) Disable Push notifications removing device token from Catapush Server
+
+This operation is asyncronous so if you need an immediate login of a new user use the block based method that gives you a completion block and a failure (in case of some occurred errors).
+```ruby
+    [Catapush logoutStoredUserWithCompletion:^{
+    	// Configure a new user
+    NSError *error;
+    [Catapush start:&error];
+    
+    if (error != nil) {
+        // Handle login/start error...
+    }
+} failure:^{
+        // Handle logout error...
+    }];
+```
 
 
-#Advanced
+# Advanced
 Let Library knows when user read message in your own View invoking this method:
 ```ruby
 [MessageIP sendMessageReadNotification:messageIP];
@@ -420,9 +444,10 @@ request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sentTime" 
 ```
 When the objects that satisfy the defined NSPredicate you will be notifies in the NSFetchedResultsControllerDelegate methods as shown above.
 
-##Notes
+## Notes
 The contribution of the Catapush static library to IPA size is 650KB.
 The size of the static library archive file, compiled with ENABLE_BITCODE = 1, is 60MB (it included differents architecture object files).
+
 
 ## Author
 
