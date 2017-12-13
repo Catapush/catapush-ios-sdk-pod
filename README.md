@@ -31,7 +31,17 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
     // Register for push notification Standard or VoIP based on capabilites setting in Xcode Project
     [Catapush registerUserNotification:self voIPDelegate:nil];
 
-    [Catapush startWithIdentifier: @"test" andPassword:@"test"];
+    // Set the idenfitier/user and the password
+    [Catapush setIdentifier:@"test" andPassword:@"test"];
+   
+    // User this for a better error handling instead of [Catapush startWithIdentifier:andPassword:]
+    NSError *error;
+    [Catapush start:&error];
+    
+    if (error != nil) {
+        // Handle 
+	error...
+    }
 
     return YES;
 }
