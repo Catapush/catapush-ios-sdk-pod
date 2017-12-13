@@ -238,6 +238,7 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  *  @return password of the user
  */
 + (NSString *) userPassword;
+
 /**
  *  This Methods connects the library to the host to receive Messages.
  *  It needs the indentifier and the password of the user (see setIndetifier/2 to set user credentials).
@@ -246,7 +247,7 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  * @param error, nil if no problem was encountered.
  */
 
-+(void) start:(NSError **) error;
++ (void) start:(NSError **) error;
 
 
 /**
@@ -282,6 +283,7 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 + (void)applicationWillEnterForeground:(UIApplication *)application withError:(NSError **) error;
 + (void)applicationWillTerminate:(UIApplication *)application;
 
+
 /**
  *  Register the library to the Push Notification Service.
  *  This method can be used with both 'Regular Push' or 'VoIP Push'.
@@ -298,8 +300,10 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  * 2) Remove User data from local storage
  * 3) Disable Push notifications removing device token from Catapush Server
  *
+ * To change a user (logout and login) it's necessary to use the block version method (in the completion you should i.e. start a new session) otherwise you can experiment a race condition.
  */
 + (void)logoutStoredUser;
++ (void)logoutStoredUserWithCompletion:(void (^)(void))success failure:(void (^)(void))failure;
 
 /**
  * Return aps environment string included in mobile provisioning profile entitlements
