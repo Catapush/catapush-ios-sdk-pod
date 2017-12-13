@@ -71,6 +71,12 @@ The 2nd argument of the method ```registerUserNotification/2``` is a ```VoIPNoti
 The protocol ```VoIPNotificationDelegate``` has one method ```didReceiveIncomingPushWithPayload:(PKPushPayload *)payload``` called when a notification is received.  You can implement this method, and write your custom code, but  Catapush
 library will not display any alert or play a sound when a notification is received.
 
+##Update for Xcode 9
+In Xcode 9 the VOIP Capability is hidden, to continue receiving VOIP Push messages you have to enable in the info.plist file.
+To do so open your project, select Info tab, under 'Required background modes' add ad item with the this content: App provides Voice over IP services
+
+
+
 ##Certificate, App Id, and Entitlements
 These are pre-requisites for setting up VoIP with Catapush.
 * Make sure your app has an explicit app id and push entitlements in Apple's Developer Portal.
