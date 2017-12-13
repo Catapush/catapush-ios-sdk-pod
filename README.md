@@ -241,9 +241,9 @@ If your client app require a multi user experience you have to logout the curren
 + (void)logoutStoredUser;
 ```
 the SDK:
- * 1) Disconnect XMPP Connection
- * 2) Remove User data from local storage
- * 3) Disable Push notifications removing device token from Catapush Server
+1) Disconnect XMPP Connection
+2) Remove User data from local storage
+3) Disable Push notifications removing device token from Catapush Server
 
 This operation is asyncronous so if you need an immediate login of a new user use the block based method that gives you a completion block and a failure (in case of some occurred errors).
 ```ruby
