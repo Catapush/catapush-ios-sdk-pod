@@ -247,8 +247,8 @@ the SDK:
 
 This operation is asyncronous so if you need an immediate login of a new user use the block based method that gives you a completion block and a failure (in case of some occurred errors).
 ```ruby
-    [Catapush logoutStoredUserWithCompletion:^{
-    	// Configure a new user
+[Catapush logoutStoredUserWithCompletion:^{
+   // Configure a new user
     NSError *error;
     [Catapush start:&error];
     
@@ -256,8 +256,8 @@ This operation is asyncronous so if you need an immediate login of a new user us
         // Handle login/start error...
     }
 } failure:^{
-        // Handle logout error...
-    }];
+    // Handle logout error...
+}];
 ```
 
 
