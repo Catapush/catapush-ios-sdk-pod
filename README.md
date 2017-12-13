@@ -39,8 +39,7 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
     [Catapush start:&error];
     
     if (error != nil) {
-        // Handle 
-	error...
+        // Handle error here...
     }
 
     return YES;
