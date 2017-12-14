@@ -1,6 +1,10 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/catapush-ios-sdk-pod"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/catapush_ios_sdk_pod.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "catapush_ios_sdk_pod"
-PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-catapush-ios-sdk-pod_Tests
+LIBRARY_SEARCH_PATHS = $(inherited) $(SRCROOT)/Pods/**
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/catapush-ios-sdk-pod/catapush_ios_sdk_pod.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"xml2" -framework "catapush_ios_sdk_pod"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
 PODS_ROOT = ${SRCROOT}/Pods
