@@ -84,7 +84,13 @@ library will not display any alert or play a sound when a notification is receiv
 In Xcode 9 the VOIP Capability is hidden, to continue receiving VOIP Push messages you have to enable in the info.plist file.
 To do so open your project, select Info tab, under 'Required background modes' add ad item with the this content: App provides Voice over IP services
 
-
+Open Info.plist as a source code and add “voip" to UIBackgroundModes manually.
+```
+<key>UIBackgroundModes</key>
+<array>
+    <string>voip</string>
+</array>
+```
 
 ## Certificate, App Id, and Entitlements
 These are pre-requisites for setting up VoIP with Catapush.
