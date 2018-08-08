@@ -18,9 +18,9 @@ pod "catapush-ios-sdk-pod"
 
 #QuickStart
 
-Import ```CatapushHeaders.h``` into your application delegate as follows:
+Import ```Catapush.h``` into your application delegate as follows:
 ```ruby
-#import "CatapushHeaders.h"
+#import "Catapush.h"
 ```
 Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboard) and insert it together with a couple of credentials of your choice into your application delegate:
 ```ruby

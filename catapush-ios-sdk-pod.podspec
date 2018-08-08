@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "catapush-ios-sdk-pod"
-  s.version          = "0.4.16"
-  s.summary          = "More logging"
+  s.version          = "0.4.17"
+  s.summary          = "Bug fixing"
   s.description      = <<-DESC
 "Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages."
 DESC
@@ -18,7 +18,7 @@ DESC
   s.license          = 'MIT'
   s.author           = { "Alessandro Chiarotto" => "alessandro@catapush.com", 			"Felice De Luca" => "felice@catapush.com" }
   s.source           = { :git => "https://github.com/Catapush/catapush-ios-sdk-pod.git", :tag => s.version.to_s }
-  s.platform     = :ios, '9.0'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
   s.source_files = 'Pod/Classes/**/*','CatapushKit/Catapush.h'
   s.xcconfig = { 'LIBRARY_SEARCH_PATHS' => "$(SRCROOT)/Pods/**", 'OTHER_LDFLAGS' => '-ObjC -lxml2' }
