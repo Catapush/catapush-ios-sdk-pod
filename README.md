@@ -52,12 +52,6 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 Note: Catapush DOES register user notification for you, so DO NOT register user notification by calling instance method of ```UIApplication```.
 
 These are pre-requisites for setting up your application with Catapush.
-## Certificate, App Id, Push Entitlements, Notification Service Extension and App Groups
-* Make sure your app has an explicit app id and push entitlements in Apple's Developer Portal.
-* Create an Apple Push Notification Authentication Key and configure your Catapush applicaton hosted on [Catapush servers](http://www.catapush.com).
-* Add a Notification Service Extension (in Xcode File -> New -> Target...) that extends CatapushNotificationServiceExtension
-* Create a specific App Group for the iOS Application and the Notification Service Extension.
-
 ### Create and configure the authentication key
 This section describes how to generate an authentication key for an App ID enabled for Push Notifications. If you have an existing key, you can use that key instead of generating a new one.
 
@@ -72,15 +66,24 @@ Once you have download it you have to configure your Catapush application.
 1) Go to https://www.catapush.com/panel/apps/YOUR_APP_ID/platforms.
 2) Click on iOS Token Based to enable it.
 3) Fill iOS Team Id, iOS Key Id, iOS AuthKey and iOS Topic.
+
 The iOS Team Id can be found here https://developer.apple.com/account/#/membership in "Membership Information" section.
+
 The iOS Key Id can be retrieved here https://developer.apple.com/account/resources/authkeys/list, click on the key you have created and you can find it under "View Key Details" section.
-The iOS AuthKey is the content of the key file. Example:
+
+The iOS AuthKey is the content of the key file.
+
+Example:
+```ruby
 -----BEGIN PRIVATE KEY-----
 ...........................
           AUTH_KEY
 ...........................
 -----END PRIVATE KEY-----
+```
+
 The iOS Topic is the bundle identifier of your iOS application.
+
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/catapush_ios_token_based.png)
 
 ### Notification Service Extension
@@ -127,6 +130,7 @@ The app and the extansion must be in the same app group.
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_1.png)
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_2.png)
 ![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/catapush_ios_token_based.png)
+
 You should also add this information in the App plist and the Extension plist:
 ```ruby
     <key>Catapush</key>
