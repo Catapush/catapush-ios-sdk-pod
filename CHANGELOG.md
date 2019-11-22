@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [2.0.0] (22/11/2019)
+## [2.0.1] (22/11/2019)
 New push management without VoIP
 
 ## [0.2.0] (29/07/2016)
