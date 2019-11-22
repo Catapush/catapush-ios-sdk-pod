@@ -29,6 +29,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <UserNotifications/UserNotifications.h>
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 #import <PushKit/PushKit.h>
@@ -43,7 +44,9 @@
  *
  */
 enum {
-    CatapushCredentialsError
+    CatapushCredentialsError,
+    CatapushNetworkError,
+    CatapushNoMessagesError
 };
 
 /**
@@ -355,4 +358,13 @@ didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
 + (void)saveContext;
 + (void)cleanDatabase;
 + (void)flushDatabase;
+@end
+
+/**************************************************************
+***        CATAPUSH NotificationServiceExtension        ***
+****************************************************************/
+
+@interface CatapushNotificationServiceExtension : UNNotificationServiceExtension
+- (void)handleMessage:(MessageIP *) message;
+- (void)handleError:(NSError *) error;
 @end

@@ -27,112 +27,130 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     [Catapush setAppKey:@"YOUR_APP_KEY"];
-
-    // Register for push notification Standard or VoIP based on capabilites setting in Xcode Project
-    [Catapush registerUserNotification:self voIPDelegate:nil];
-
-    // Set the idenfitier/user and the password
+    
     [Catapush setIdentifier:@"test" andPassword:@"test"];
-   
-    // Use this for a better error handling instead of [Catapush startWithIdentifier:andPassword:]
+    
+    [Catapush setupCatapushStateDelegate:self andMessagesDispatcherDelegate:self];
+    
+    [Catapush registerUserNotification:self voIPDelegate:nil];
+    
     NSError *error;
     [Catapush start:&error];
     
     if (error != nil) {
-        // Handle error here...
+        // Handle error...
     }
+    
+    [self setupUI];
+    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    [Catapush applicationDidEnterBackground:application];
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    [Catapush applicationWillEnterForeground:application];
-}
-```
-The method ```registerUserNotification/2``` requests registration for remote notification. If VoIP background mode in an app
-is enabled in XCode capabilites, then the method requests a registration for VoIP notification.
-
-Note: Catapush DOES register user notification for you, so DO NOT register user notification by calling instance method  ```registerUserNotificationSettings/1``` of ```UIApplication```.
-
-## Enabling Voice Over IP Push Notifications
-Set the following capabilites in your XCode project:
-
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/capabilities_remote_xcode.png)
-
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/capabilities_xcode.png)
-
-If VoIP is enabled, Catapush library will display alert message and play default sound when a notification is received
-(you don't need to write code for showing alert message).
-If you want to use standard notification just select ```Remote Notification``` (and unselect Voip).
-
-The 2nd argument of the method ```registerUserNotification/2``` is a ```VoIPNotificationDelegate``` delegate.
-The protocol ```VoIPNotificationDelegate``` has one method ```didReceiveIncomingPushWithPayload:(PKPushPayload *)payload``` called when a notification is received.  You can implement this method, and write your custom code, but  Catapush
-library will not display any alert or play a sound when a notification is received.
-
-### Update for Xcode 9
-In Xcode 9 the VOIP Capability is hidden, to continue receiving VOIP Push messages you have to enable in the info.plist file.
-To do so open your project, select Info tab, under 'Required background modes' add ad item with the this content: App provides Voice over IP services
-
-Open Info.plist as a source code and add “voip" to UIBackgroundModes manually.
-```
-<key>UIBackgroundModes</key>
-<array>
-    <string>voip</string>
-</array>
 ```
 
-## Certificate, App Id, and Entitlements
-These are pre-requisites for setting up VoIP with Catapush.
+Note: Catapush DOES register user notification for you, so DO NOT register user notification by calling instance method of ```UIApplication```.
+
+These are pre-requisites for setting up your application with Catapush.
+## Certificate, App Id, Push Entitlements, Notification Service Extension and App Groups
 * Make sure your app has an explicit app id and push entitlements in Apple's Developer Portal.
-* Create a VoIP Push Certificate. This can be re-used for development and production.
+* Create an Apple Push Notification Authentication Key and configure your Catapush applicaton hosted on [Catapush servers](http://www.catapush.com).
+* Add a Notification Service Extension (in Xcode File -> New -> Target...) that extends CatapushNotificationServiceExtension
+* Create a specific App Group for the iOS Application and the Notification Service Extension.
 
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/voip_cert.png)
+### Create and configure the authentication key
+This section describes how to generate an authentication key for an App ID enabled for Push Notifications. If you have an existing key, you can use that key instead of generating a new one.
 
-* Import the VoIP Push Certificate into Keychain Access and export as a .p12 file.
-* Upload the exported .p12 file into your Catapush Application ("Platform" menu item).
+To create an authentication key:
+1) In your [Apple Developer Member Center](https://developer.apple.com/account), go to Certificates, Identifiers & Profiles, and select Keys.
+2) Click the Add button (+) in the upper-right corner.
+3) Enter a description for the APNs Auth Key.
+4) Under Key Services, select the Apple Push Notifications service (APNs) checkbox, and click Continue.
+5) Click Confirm and then Download. Save your key in a secure place. This is a one-time download, and the key cannot be retrieved later.
 
+Once you have download it you have to configure your Catapush application.
+1) Go to https://www.catapush.com/panel/apps/YOUR_APP_ID/platforms.
+2) Click on iOS Token Based to enable it.
+3) Fill iOS Team Id, iOS Key Id, iOS AuthKey and iOS Topic.
+The iOS Team Id can be found here https://developer.apple.com/account/#/membership in "Membership Information" section.
+The iOS Key Id can be retrieved here https://developer.apple.com/account/resources/authkeys/list, click on the key you have created and you can find it under "View Key Details" section.
+The iOS AuthKey is the content of the key file. Example:
+-----BEGIN PRIVATE KEY-----
+...........................
+          AUTH_KEY
+...........................
+-----END PRIVATE KEY-----
+The iOS Topic is the bundle identifier of your iOS application.
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/catapush_ios_token_based.png)
 
-##Standard Push Notification
-If you are going to use VoIP notification you can omit the following method declarations:
+### Notification Service Extension
+In order to process the push notification a Notification Service Extension is required.
+Add a Notification Service Extension (in Xcode File -> New -> Target...) that extends CatapushNotificationServiceExtension
+```ruby
+@interface CatapushNotificationServiceExtension : UNNotificationServiceExtension
+- (void)handleMessage:(MessageIP *) message;
+- (void)handleError:(NSError *) error;
+@end
+```
+Implements these two methods to customize the push notification.
+Example:
+```ruby
+- (void)handleError:(NSError *) error{
+    if (error.code == CatapushCredentialsError) {
+        self.bestAttemptContent.body = @"User not logged in";
+    }
+    if (error.code == CatapushNetworkError) {
+        self.bestAttemptContent.body = @"Newtork error";
+    }
+    if (error.code == CatapushNoMessagesError) {
+        self.bestAttemptContent.body = @"No new message";
+    }
+}
+
+- (void)handleMessage:(MessageIP *) message{
+    if (message != nil) {
+        self.bestAttemptContent.body = message.body.copy;
+    }else{
+        self.bestAttemptContent.body = @"No new message";
+    }
+    self.contentHandler(self.bestAttemptContent);
+}
+```
+Example projects
+[Obj-C](https://github.com/Catapush/catapush-ios-sdk-example)
+[Swift](https://github.com/Catapush/catapush-ios-swift-sdk-example)
+
+### AppGroups
+Catapush need that the Notification Service Extension and the main application can share resources.
+In order to do that you have to create and enable a specific app group for both the application and the extension.
+The app and the extansion must be in the same app group.
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_1.png)
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_2.png)
+![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/catapush_ios_token_based.png)
+You should also add this information in the App plist and the Extension plist:
+```ruby
+    <key>Catapush</key>
+    <dict>
+        <key>AppGroup</key>
+        <string>group.example.group</string>
+    </dict>
+```
+
+##Push Notification
 ```ruby
 #pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-    // Custom End user code, can be empty
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+   // Custom code (can be empty)
 }
 
-# pragma mark
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-    // Custom End user code, can be empty
-}
-
-# pragma mark End developer user must be declare in order to let AOP to inject catapush library code
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    // Custom End user code, can be empty
-}
-
-# pragma mark End developer user Must be declared in order to let AOP to inject catapush library code
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    // Custom End user code, can be empty
+#pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    // Custom code (can be empty)
 }
 
 ```
 
-Catapush injects code on the above methods in order to intercept their calls once a (standard) notification is received.
+Catapush injects code on the above methods in order to intercept their calls once a notification is received.
 The injected code will handle incoming push notification. You can insert custom code if you have specific needs or
 you can let the implentations empty.
 
@@ -468,6 +486,7 @@ The size of the static library archive file, compiled with ENABLE_BITCODE = 1, i
 
 Alessandro Chiarotto, alessandro@catapush.com
 Felice De Luca, felice@catapush.com
+Matteo Corradin, matteo@catapush.com
 
 ## License
 
