@@ -32,7 +32,7 @@ Get your App Key from [Catapush Dashboard](http://www.catapush.com/panel/dashboa
     
     [Catapush setupCatapushStateDelegate:self andMessagesDispatcherDelegate:self];
     
-    [Catapush registerUserNotification:self voIPDelegate:nil];
+    [Catapush registerUserNotification:self];
     
     NSError *error;
     [Catapush start:&error];
