@@ -1,38 +1,18 @@
-#Change Log
+# Change Log
 All notable changes to this project will be documented in this file.
 `catapush-ios-sdk-pod` adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## [2.0.2] (15/12/2019)
+Added the possibility to force a logout, it will remove user data from local storage and close the XMPP connection even if the call to Catapush Server fail.
+
+Added the function ```isCatapushNotificationRequest``` to check if a ```UNNotificationRequest``` is from Catapush.
+
+New Catapush Error code (```CatapushFileProtectionError```), it will be returned if the user recieve a push notification but the device was not unlocked for at least one time after the boot.
+User data is stored in an encrypted format on disk with ```NSFileProtectionCompleteUntilFirstUserAuthentication``` policy.
+
+https://developer.apple.com/documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication
+
 ## [2.0.1] (22/11/2019)
 New push management without VoIP
-
-## [0.2.0] (29/07/2016)
-Released on Friday, July 29, 2016.
-
-#### Added
-* Added VoIP Push Notification support
-* Added convenient method for user notifications registration
-* Compiled with ENABLE_BITCODE = 1
-
-## [0.1.5] (03/04/2016)
-Released on Friday, March 4, 2016.
-
-#### Added
-* Added Prefix Header to avoid duplicate symbols error with other libraries using Reachability
-
-## [0.1.4] (12/15/2015)
-Released on Wednesday, February 3, 2016.
-
-
-#### Added
-* Fixed Model bugs
-
-
-## [0.1.3] (12/15/2015)
-Released on Friday, December 15, 2015.
-
-
-#### Added
-* Replaced MessageIP _sendTime_ property with _sentTime_
-* Implemented by Felice De Luca

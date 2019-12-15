@@ -46,7 +46,8 @@
 enum {
     CatapushCredentialsError,
     CatapushNetworkError,
-    CatapushNoMessagesError
+    CatapushNoMessagesError,
+    CatapushFileProtectionError
 };
 
 /**
@@ -286,8 +287,12 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  * 2) Remove User data from local storage
  * 3) Disable Push notifications removing device token from Catapush Server
  *
+ * @param forced  If TRUE it will remove user data from local storage even if the call to Catapush Server fails. default value is FALSE
+ *
  * To change a user (logout and login) it's necessary to use the block version method (in the completion you should i.e. start a new session) otherwise you can experiment a race condition.
- */
+*/
++ (void)logoutStoredUser:(bool) forced;
++ (void)logoutStoredUser:(bool) forced withCompletion:(void (^)(void))success failure:(void (^)(void))failure;
 + (void)logoutStoredUser;
 + (void)logoutStoredUserWithCompletion:(void (^)(void))success failure:(void (^)(void))failure;
 
@@ -295,6 +300,13 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  * Return aps environment string included in mobile provisioning profile entitlements
  */
 + (NSString *) apsEnvironment:(NSError **) error;
+
+/**
+ *  Return true if the UNNotificationRequest is from Catapush
+ *
+ *  @return true if the UNNotificationRequest is from Catapush
+*/
++ (bool)isCatapushNotificationRequest:(UNNotificationRequest *)request;
 
 @end
 

@@ -108,6 +108,9 @@ Example:
     if (error.code == CatapushNoMessagesError) {
         self.bestAttemptContent.body = @"No new message";
     }
+    if (error.code == CatapushFileProtectionError) {
+        self.bestAttemptContent.body = @"Unlock the device at least once to receive the message";
+    }
 }
 
 - (void)handleMessage:(MessageIP *) message{
@@ -119,6 +122,12 @@ Example:
     self.contentHandler(self.bestAttemptContent);
 }
 ```
+
+```CatapushFileProtectionError```will be returned if the user recieve a push notification but the device was not unlocked for at least one time after the boot.
+User data is stored in an encrypted format on disk with ```NSFileProtectionCompleteUntilFirstUserAuthentication``` policy.
+
+https://developer.apple.com/documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication
+
 Example projects
 [Obj-C](https://github.com/Catapush/catapush-ios-sdk-example)
 [Swift](https://github.com/Catapush/catapush-ios-swift-sdk-example)
@@ -140,7 +149,7 @@ You should also add this information in the App plist and the Extension plist:
     </dict>
 ```
 
-##Push Notification
+## Push Notification
 ```ruby
 #pragma mark - End developer user must  declare in order to let AOP to inject catapush library code
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -159,6 +168,18 @@ The injected code will handle incoming push notification. You can insert custom 
 you can let the implentations empty.
 
 
+You can check if a ```UNNotificationRequest``` is from Catapush by calling:
+```[Catapush isCatapushNotificationRequest:request]```
+This is usefull if you have to manage custom push notification that have ```mutable-content : 1``` in the payload.
+Example (in your UNNotificationServiceExtension):
+```ruby
+- (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
+    if (![Catapush isCatapushNotificationRequest:request]) {
+        // Custom code to properly handle the notification
+    }
+    
+}
+```
 
 ## Events Handling
 In order to receive events, setup then two delegates ```<CatapushDelegate>``` and ```<MessagesDispatchDelegate>```, for instance your App Delegate itself :
@@ -293,10 +314,45 @@ This operation is asyncronous so if you need an immediate login of a new user us
         // Handle login/start error...
     }
 } failure:^{
-    // Handle logout error...
+
+    /*
+     *
+     * XMPP NOT disconnected
+     * User data NOT removed from local storage
+     * Device token NOT removed from Catapush Server
+     *
+     */
+
 }];
 ```
 
+## Forced logout
+
+You can force the logout to clear user data and close the connection even if the call to Catapush Server fails (for example no internet connection available, timeout).
+
+```ruby
+    [Catapush logoutStoredUser:true];
+
+
+    [Catapush logoutStoredUser:true withCompletion:^{
+        /*
+         * Success
+         *
+         * XMPP disconnected
+         * User data removed from local storage
+         * Removed device token from Catapush Server
+         *
+         */
+    } failure:^{
+        /*
+         * Device token NOT removed from Catapush Server (no internet connection available, timeout ...)
+         *
+         * XMPP disconnected
+         * User data removed from local storage
+         *
+         */
+    }];
+```
 
 # Advanced
 Let Library knows when user read message in your own View invoking this method:
