@@ -310,6 +310,13 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  */
 + (NSString *) apsEnvironment:(NSError **) error;
 
+/**
+ *  This method can be used to enable or disable logs
+ *
+ *  @param enabled bool
+ */
++ (void)enableLog:(bool) enabled;
+
 @end
 
 

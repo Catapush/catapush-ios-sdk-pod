@@ -459,6 +459,17 @@ request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sentTime" 
 ```
 When the objects that satisfy the defined NSPredicate you will be notifies in the NSFetchedResultsControllerDelegate methods as shown above.
 
+### Enable Log
+To enable logging to the console:
+```ruby
+[Catapush enableLog:true];
+```
+
+To disable:
+```ruby
+[Catapush enableLog:false];
+```
+
 ## Notes
 The contribution of the Catapush static library to IPA size is 650KB.
 The size of the static library archive file, compiled with ENABLE_BITCODE = 1, is 60MB (it included differents architecture object files).
