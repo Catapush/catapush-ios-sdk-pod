@@ -40,14 +40,15 @@
 
 
 /**
- * Catapush Error code returned by the Catapush's start/1 method.
+ * Catapush Error code returned by the Catapush's start/1 method and CatapushNotificationServiceExtension handleError method.
  *
  */
 enum {
     CatapushCredentialsError,
     CatapushNetworkError,
     CatapushNoMessagesError,
-    CatapushFileProtectionError
+    CatapushFileProtectionError,
+    CatapushConflictErrorCode
 };
 
 /**
@@ -307,6 +308,13 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  *  @return true if the UNNotificationRequest is from Catapush
 */
 + (bool)isCatapushNotificationRequest:(UNNotificationRequest *)request;
+
+/**
+ *  This method can be used to enable or disable logs
+ *
+ *  @param enabled bool
+ */
++ (void)enableLog:(bool) enabled;
 
 @end
 

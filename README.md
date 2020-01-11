@@ -103,13 +103,16 @@ Example:
         self.bestAttemptContent.body = @"User not logged in";
     }
     if (error.code == CatapushNetworkError) {
-        self.bestAttemptContent.body = @"Newtork error";
+        self.bestAttemptContent.body = @"Network error";
     }
     if (error.code == CatapushNoMessagesError) {
         self.bestAttemptContent.body = @"No new message";
     }
     if (error.code == CatapushFileProtectionError) {
         self.bestAttemptContent.body = @"Unlock the device at least once to receive the message";
+    }
+    if (error.code == CatapushConflictErrorCode) {
+        self.bestAttemptContent.body = @"Connected from another resource.";
     }
 }
 
@@ -536,6 +539,17 @@ request.predicate = [NSPredicate predicateWithFormat:@"status = %i", MessageIP_N
 request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sentTime" ascending:YES]];
 ```
 When the objects that satisfy the defined NSPredicate you will be notifies in the NSFetchedResultsControllerDelegate methods as shown above.
+
+### Enable Log
+To enable logging to the console:
+```ruby
+[Catapush enableLog:true];
+```
+
+To disable:
+```ruby
+[Catapush enableLog:false];
+```
 
 ## Notes
 The contribution of the Catapush static library to IPA size is 650KB.
