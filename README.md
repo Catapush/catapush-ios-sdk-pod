@@ -26,12 +26,12 @@ This section describes how to generate an authentication key for an App ID enabl
 To create an authentication key:
 1) In your [Apple Developer Member Center](https://developer.apple.com/account), go to Certificates, Identifiers & Profiles, and select Keys.
 2) Click the Add button (+) or click the "Create a key" button.
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/auth_key_1.png =400x)
+<img src="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/auth_key_1.png">
 3) Enter a description for the APNs Auth Key.
 4) Under Key Services, select the Apple Push Notifications service (APNs) checkbox, and click Continue.
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/auth_key_2.png =400x)
+<img src="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/auth_key_2.png">
 5) Click Register and then download and save your key in a secure place. This is a one-time download, and the key cannot be retrieved later.
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/auth_key_3.png =400x)
+<img src="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/auth_key_3.png">
 
 Once you have download it you have to configure your Catapush application.
 1) Go to https://www.catapush.com/panel/apps/YOUR_APP_ID/platforms.
@@ -55,7 +55,7 @@ Example:
 
 The iOS Topic is the bundle identifier of your iOS application.
 
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/catapush_ios_token_based.png =200x)
+<img src="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/catapush_ios_token_based.png" width="200">
 
 ## Add a Notification Service Extension
 In order to process the push notification a Notification Service Extension is required.
@@ -135,14 +135,14 @@ User data is stored in an encrypted format on disk with ```NSFileProtectionCompl
 https://developer.apple.com/documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication
 
 >**WARNING**: Make sure the deployment target of the Service is the same as the deployment target of the app.
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/deployment_target.png =500x)
+<img src="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/deployment_target.png">
 
 ## App Groups
 Catapush need that the Notification Service Extension and the main application can share resources.
 In order to do that you have to create and enable a specific app group for both the application and the extension.
 The app and the extension must be in the same app group.
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_1.png =700x)
-![alt tag](https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_2.png =700x)
+<img src="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_1.png">
+<img src="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/images/appgroup_2.png">
 
 You should also add this information in the App plist and the Extension plist (```group.example.group``` should match the one you used for example ```group.catapush.test``` in the screens):
 ```objectivec
