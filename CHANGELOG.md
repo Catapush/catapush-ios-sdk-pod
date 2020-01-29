@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.0.4] (29/01/2020)
+Fixed error with mixed case username.
+
+
 ## [2.0.3] (11/01/2020)
 
 Now you can enable logging for debugging purpose.
