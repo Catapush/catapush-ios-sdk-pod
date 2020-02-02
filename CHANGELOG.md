@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.0.5] (02/02/2020)
+Bugfix and stability improvement.
+
 ## [2.0.4] (29/01/2020)
 Fixed error with mixed case username.
 
