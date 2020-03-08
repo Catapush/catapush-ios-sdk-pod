@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.0.6] (08/03/2020)
+Channel support.
+Bug fix concurrency oauth call.
+Improved manage of 404 Mobile user not found.
+Bug fix crash if cannot update time offset with NTP.
+Fix delivered message not sent when multiple messages is downloaded.
+
 ## [2.0.5] (02/02/2020)
 Bugfix and stability improvement.
 
