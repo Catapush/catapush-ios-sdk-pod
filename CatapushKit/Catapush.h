@@ -115,7 +115,8 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 
 //Channel
 @property (readonly) NSString * channel;
-
+//ReplyTo
+@property (readonly) NSString * originalMessageId;
 
 - (bool)hasMedia;
 - (bool)isMediaReady;
@@ -125,6 +126,8 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 - (UIImage *)mediaPreview;
 
 - (void)downloadMediaWithCompletionHandler:(void (^)(NSError *error, NSData *data))completionHandler;
+
+- (NSDictionary *)optionalData;
 
 @end
 
@@ -190,6 +193,13 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 + (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andImage:(UIImage *)image;
 + (MessageIP *)sendMessageWithText:(NSString *)text andData:(NSData *)data ofType:(NSString *)mediaType;
 + (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andData:(NSData *)data ofType:(NSString *)mediaType;
++ (MessageIP *)sendMessageWithText:(NSString *)text replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andImage:(UIImage *)image replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andImage:(UIImage *)image replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andData:(NSData *)data ofType:(NSString *)mediaType replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andData:(NSData *)data ofType:(NSString *)mediaType replyTo:(NSString *) messageId;
+
 /**
  *  Registers for notifying the user with the following options:
  *  UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound.

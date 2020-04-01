@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.0.7] (01/04/2020)
+ReplyTo support.
+
+Optional Data support.
+
+Improved native token update for better performances.
+
 ## [2.0.6] (08/03/2020)
 Channel support.
 
