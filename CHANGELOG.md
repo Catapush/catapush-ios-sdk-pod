@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.0.8] (07/05/2020)
+Improved connection and retry management.
+
+Improved update of an expired session.
+
 ## [2.0.7] (01/04/2020)
 ReplyTo support.
 

@@ -35,7 +35,7 @@
 #import <PushKit/PushKit.h>
 #endif
 
-#define CATAPUSH_ERROR_DOMAIN @"MessagingIPError"
+#define CATAPUSH_ERROR_DOMAIN @"com.catapush.error"
 #define kCatapushStatusChangedNotification @"CatapushStatusChangedNotification"
 
 
