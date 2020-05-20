@@ -1,8 +1,11 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
 `catapush-ios-sdk-pod` adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+
+## [2.0.9] (20/05/2020)
+Catapush credentials are now stored in the keychain.
 
 ## [2.0.8] (07/05/2020)
 Improved connection and retry management.
