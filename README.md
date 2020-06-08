@@ -325,7 +325,7 @@ Example (in your ```UNNotificationServiceExtension```):
 [Swift](https://github.com/Catapush/catapush-ios-swift-sdk-example)
 
 
-## Events Handling
+# Events Handling
 In order to receive events, setup then two delegates ```<CatapushDelegate>``` and ```<MessagesDispatchDelegate>```, for instance your App Delegate itself :
 ```objectivec
 @interface AppDelegate () <CatapushDelegate, MessagesDispatchDelegate>
@@ -338,6 +338,7 @@ and then for instances in your application delegate ```application:didFinishLaun
 ```CatapushDelegate``` handles connection events, notifying the connection state, and ```MessagesDispatchDelegate``` deliver Messages to your App
 Authentication
 
+## Connection Events
 ```CatapushDelegate``` is in charge of notifying the state of the connection or any errors related with the Library
 
 If connection is successfully, this delegate is triggered:
@@ -350,39 +351,41 @@ If connection is successfully, this delegate is triggered:
     [connectedAV show];
 }
 ```
+## Error Handling
 Error handling comes with this delegate:
 ```objectivec
-- (void)catapush:(Catapush *)catapush didFailOperation:(NSString *)operationName withError:(NSError *)error
-{
-
-    if ([error.domain isEqualToString:CATAPUSH_ERROR_DOMAIN]) {
-
-    switch (error.code) {
-        case WRONG_AUTHENTICATION:
-            break;
-        case INVALID_APP_KEY:
-            break;
-        case USER_NOT_FOUND:
-            break;
-        case GENERIC:
-            break;
-        default:
-            break;
-    }
-
-    }
-
-    NSString *errorMsg = [NSString stringWithFormat:@"The operation %@ is failed with error:\n%@", operationName, [error localizedDescription]];
-
-    UIAlertView *flowErrorAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                             message:errorMsg
-                                                            delegate:self
-                                                   cancelButtonTitle:@"Ok"
-                                                   otherButtonTitles:nil];
-    [flowErrorAlertView show];
-
-}
+- (void)catapush:(Catapush *)catapush didFailOperation:(NSString *)operationName withError:(NSError *)error;
 ```
+
+The callback might be executed with the following error codes:
+
+| Error code                                        | Description                                                                                                                                                                                                                           | Suggested strategy                                                                                                                                                                                                                                                                                                |
+|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -10404 = INVALID_APP_KEY                          | The app key is incorrect.                                                                                                                                                                                                             | Check the app id and retry.                                                                                                                                                                                                                                                                                       |
+| -11404 = USER_NOT_FOUND                           | Identifier or password not set                                                                                                                                                                                                        | Please check if you have provided a valid username and password to Catapush via this method:<br><br>[Catapush setIdentifier:username andPassword:password];                                                                                                                                                       |
+| -10403 = WRONG_AUTHENTICATION                     | Credentials error                                                                                                                                                                                                                     | Please verify your identifier and password validity. The user might have been deleted from the Catapush app (via API or from the dashboard) or the password has changed.<br><br>You should not keep retrying, delete the stored credentials.<br>Provide a new identifier to this installation to solve the issue. |
+| -11000 = GENERIC                                  | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 11 = XMPP_MULTIPLE_LOGIN                          | The same user identifier has been logged on another device, the messaging service will be stopped on this device                                                                                                                      | Please check that you are using a unique identifier for each device, even on devices owned by the same user.<br>If you received this error it means that you are using the same username/password on different devices.<br>Provide a new identifier to this installation to solve the issue.                      |
+| 14011 = API_UNAUTHORIZED                          | The credentials has been rejected                                                                                                                                                                                                     | Please verify your identifier and password validity. The user might have been deleted from the Catapush app (via API or from the dashboard) or the password has changed.<br><br>You should not keep retrying, delete the stored credentials.<br>Provide a new identifier to this installation to solve the issue. |
+| 15001 = API_INTERNAL_ERROR                        | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 24001 = REGISTRATION_BAD_REQUEST                  | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 24031 = REGISTRATION_FORBIDDEN_WRONG_AUTH         | Wrong auth                                                                                                                                                                                                                            | Please verify your identifier and password validity. The user might have been deleted from the Catapush app (via API or from the dashboard) or the password has changed.<br><br>You should not keep retrying, delete the stored credentials.<br>Provide a new identifier to this installation to solve the issue. |
+| 24041 = REGISTRATION_NOT_FOUND_APPLICATION        | Application not found                                                                                                                                                                                                                 | You appplication is not found or not active.<br>You should not keep retrying.                                                                                                                                                                                                                                     |
+| 24042 = REGISTRATION_NOT_FOUND_USER               | User not found                                                                                                                                                                                                                        | The user has been probably deleted from the Catapush app (via API or from the dashboard).<br><br>You should not keep retrying.<br>Provide a new identifier to this installation to solve the issue.                                                                                                               |
+| 25001 = REGISTRATION_INTERNAL_ERROR               | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 34001 = OAUTH_BAD_REQUEST                         | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 34002 = OAUTH_BAD_REQUEST_INVALID_CLIENT          | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 34003 = OAUTH_BAD_REQUEST_INVALID_GRANT           | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 35001 = OAUTH_INTERNAL_ERROR                      | Internal error of the remote messaging service                                                                                                                                                                                        | An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.<br>Please try again in a few minutes.                                                                                                                                       |
+| 44031 = UPDATE_PUSH_TOKEN_FORBIDDEN_WRONG_AUTH    | Credentials error                                                                                                                                                                                                                     | Please verify your identifier and password validity. The user might have been deleted from the Catapush app (via API or from the dashboard) or the password has changed.<br><br>You should not keep retrying, delete the stored credentials.<br>Provide a new identifier to this installation to solve the issue. |
+| 44032 = UPDATE_PUSH_TOKEN_FORBIDDEN_NOT_PERMITTED | Credentials error                                                                                                                                                                                                                     | Please verify your identifier and password validity. The user might have been deleted from the Catapush app (via API or from the dashboard) or the password has changed.<br><br>You should not keep retrying, delete the stored credentials.<br>Provide a new identifier to this installation to solve the issue. |
+| 44041 = UPDATE_PUSH_TOKEN_NOT_FOUND_CUSTOMER      | Application error                                                                                                                                                                                                                     | You appplication is not found or not active.<br>You should not keep retrying.                                                                                                                                                                                                                                     |
+| 44042 = UPDATE_PUSH_TOKEN_NOT_FOUND_APPLICATION   | Application not found                                                                                                                                                                                                                 | You appplication is not found or not active.<br>You should not keep retrying.                                                                                                                                                                                                                                     |
+| 44043=UPDATE_PUSH_TOKEN_NOT_FOUND_USER            | User not found                                                                                                                                                                                                                        | Please verify your identifier and password validity. The user might have been deleted from the Catapush app (via API or from the dashboard) or the password has changed.<br><br>You should not keep retrying, delete the stored credentials.<br>Provide a new identifier to this installation to solve the issue. |
+| 45001 = UPDATE_PUSH_TOKEN_INTERNAL_ERROR          | Internal error of the remote messaging service when updating the push token.                                                                                                                                                          | Nothing, it's handled automatically by the sdk.<br>An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.                                                                                                                          |
+| 10 = NETWORK_ERROR,                               | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted. | Please check your internet connection and try to reconnect again.                                                                                                                                                                                                                                                 |
+| 12 = PUSH_TOKEN_UNAVAILABLE                       | Push token is not available.                                                                                                                                                                                                          | Nothing, it's handled automatically by the sdk.                                                                                                                                                                                                                                                                   |
+
 ## Receiving Messages
 ```MessagesDispatchDelegate``` is the delegate in charge of messages dispatching. Messages are represented by a MessageIP object, and arrive in this delegate:
 
@@ -409,7 +412,7 @@ When you consume the received Messages, you can mark them as readed if user open
 }
 ```
 ## Sending Messages
-You can send text messages to Catapuhs server using the following method:
+You can send text messages to Catapush server using the following method:
 
 ```objectivec
 [Catapush sendMessageWithText:text];
@@ -437,6 +440,78 @@ In case a delivery of message fails you can re-send the message using its ```mes
 ```
 + (MessageIP *)sendMessageWithMessageId:(NSString *) messageId;
 ```
+
+You can also send a message with an image, a file, or you can specify a [channel](https://www.catapush.com/docs-api?php#channels) or a replyTo (the id of the message to which the reply refers).
+
+```
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel;
++ (MessageIP *)sendMessageWithText:(NSString *)text andImage:(UIImage *)image;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andImage:(UIImage *)image;
++ (MessageIP *)sendMessageWithText:(NSString *)text andData:(NSData *)data ofType:(NSString *)mediaType;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andData:(NSData *)data ofType:(NSString *)mediaType;
++ (MessageIP *)sendMessageWithText:(NSString *)text replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andImage:(UIImage *)image replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andImage:(UIImage *)image replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andData:(NSData *)data ofType:(NSString *)mediaType replyTo:(NSString *) messageId;
++ (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andData:(NSData *)data ofType:(NSString *)mediaType replyTo:(NSString *) messageId;
+```
+## Fetching an attachment
+MessageIP questi sono i vari metodi e proprietà:
+```
+@interface MessageIP : NSManagedObject
+// ....
+@property (readonly) NSData *  mm;
+@property (readonly) NSString * mmType;
+@property (readonly) NSString * filename;
+- (bool)hasMedia;
+- (bool)isMediaReady;
+- (bool)hasMediaPreview;
+- (UIImage *)mediaPreview;
+- (void)downloadMediaWithCompletionHandler:(void (^)(NSError *error,
+NSData *data))completionHandler;
+// ....
+@end
+```
+```
+- (bool)hasMedia;
+```
+True if the message contains a media.
+```
+- (bool)isMediaReady;
+```
+True if the media has already been downloaded.
+```
+@property (readonly) NSData *  mm;
+```
+Contains the media if has already been downloaded.
+```
+@property (readonly) NSString * mmType;
+```
+The media type of the media (e.g. image/png, application/msword)
+```
+@property (readonly) NSString * filename;
+```
+The media filename.
+```
+- (void)downloadMediaWithCompletionHandler:(void (^)(NSError *error,
+NSData *data))completionHandler;
+```
+Allows you to download a media if it isn't already been downloaded.
+The callback contains the downloaded media and eventually the error (e.g. network error).
+
+If the media had already been downloaded, invoking this method will have no effect.
+
+## Get optional data
+If a message contains [optional data](https://www.catapush.com/docs-api?php#2.1-post---send-a-new-message), you can get them by this method.
+```
+@interface MessageIP : NSManagedObject
+//....
+- (NSDictionary *)optionalData;
+//....
+@end
+```
+
 # Multiuser
 If your client app require a multi user experience you have to logout the current session, in particular calling this static method:
 ```objectivec

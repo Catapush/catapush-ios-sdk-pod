@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.1.0] (08/06/2020)
+Error code revisited.
+
+https://github.com/Catapush/catapush-ios-sdk-pod#error-handling
+
 ## [2.0.9] (20/05/2020)
 Catapush credentials are now stored in the keychain.
 
