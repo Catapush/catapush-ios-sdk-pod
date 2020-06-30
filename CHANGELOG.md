@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.1.1] (30/06/2020)
+Improved oauth management.
+
 ## [2.1.0] (08/06/2020)
 Error code revisited.
 
