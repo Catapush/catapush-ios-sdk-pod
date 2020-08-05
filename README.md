@@ -89,9 +89,6 @@ Example:
 @implementation NotificationService
 
 - (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
-    self.receivedRequest = request;
-    self.contentHandler = contentHandler;
-    self.bestAttemptContent = [request.content mutableCopy];
     [super didReceiveNotificationRequest:request withContentHandler:contentHandler];
 }
 
@@ -313,9 +310,6 @@ Example (in your ```UNNotificationServiceExtension```):
     if (![Catapush isCatapushNotificationRequest:request]) {
         // Custom code to properly handle the notification
     }else{
-        self.receivedRequest = request;
-        self.contentHandler = contentHandler;
-        self.bestAttemptContent = [request.content mutableCopy];
         [super didReceiveNotificationRequest:request withContentHandler:contentHandler];
     }
 }
