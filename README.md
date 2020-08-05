@@ -120,7 +120,7 @@ Example:
         }else{
             bestAttemptContent.body = @"No new message";
         }
-        contentHandler(self.bestAttemptContent);
+        contentHandler(bestAttemptContent);
     }
 }
 
