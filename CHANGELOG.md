@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.1.2] (05/08/2020)
+Bugfix to avoid crash in notification service and stability improvement.
+
 ## [2.1.1] (30/06/2020)
 Improved oauth management.
 

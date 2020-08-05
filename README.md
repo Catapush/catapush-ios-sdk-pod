@@ -62,8 +62,8 @@ In order to process the push notification a Notification Service Extension is re
 Add a Notification Service Extension (in Xcode File -> New -> Target...) that extends ```CatapushNotificationServiceExtension```
 ```objectivec
 @interface CatapushNotificationServiceExtension : UNNotificationServiceExtension
-- (void)handleMessage:(MessageIP *) message;
-- (void)handleError:(NSError *) error;
+- (void)handleMessage:(MessageIP *) message withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
+- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
 @end
 ```
 
@@ -84,10 +84,6 @@ Example:
 
 @interface NotificationService ()
 
-@property (nonatomic, strong) void (^contentHandler)(UNNotificationContent *contentToDeliver);
-@property (nonatomic, strong) UNNotificationRequest *receivedRequest;
-@property (nonatomic, strong) UNMutableNotificationContent *bestAttemptContent;
-
 @end
 
 @implementation NotificationService
@@ -99,31 +95,36 @@ Example:
     [super didReceiveNotificationRequest:request withContentHandler:contentHandler];
 }
 
-- (void)handleError:(NSError *) error{
-    if (error.code == CatapushCredentialsError) {
-        self.bestAttemptContent.body = @"User not logged in";
-    }
-    if (error.code == CatapushNetworkError) {
-        self.bestAttemptContent.body = @"Network error";
-    }
-    if (error.code == CatapushNoMessagesError) {
-        self.bestAttemptContent.body = @"No new message";
-    }
-    if (error.code == CatapushFileProtectionError) {
-        self.bestAttemptContent.body = @"Unlock the device at least once to receive the message";
-    }
-    if (error.code == CatapushConflictErrorCode) {
-        self.bestAttemptContent.body = @"Connected from another resource.";
+- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent{
+    if (contentHandler != nil && bestAttemptContent != nil){
+        if (error.code == CatapushCredentialsError) {
+            bestAttemptContent.body = @"User not logged in";
+        }
+        if (error.code == CatapushNetworkError) {
+            bestAttemptContent.body = @"Network error";
+        }
+        if (error.code == CatapushNoMessagesError) {
+            bestAttemptContent.body = @"No new message";
+        }
+        if (error.code == CatapushFileProtectionError) {
+            bestAttemptContent.body = @"Unlock the device at least once to receive the message";
+        }
+        if (error.code == CatapushConflictErrorCode) {
+            bestAttemptContent.body = @"Connected from another resource.";
+        }
+        contentHandler(bestAttemptContent);
     }
 }
 
-- (void)handleMessage:(MessageIP *) message{
-    if (message != nil) {
-        self.bestAttemptContent.body = message.body.copy;
-    }else{
-        self.bestAttemptContent.body = @"No new message";
+- (void)handleMessage:(MessageIP *) message withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent{
+    if (contentHandler != nil && bestAttemptContent != nil){
+        if (message != nil) {
+            bestAttemptContent.body = message.body.copy;
+        }else{
+            bestAttemptContent.body = @"No new message";
+        }
+        contentHandler(self.bestAttemptContent);
     }
-    self.contentHandler(self.bestAttemptContent);
 }
 
 @end
@@ -352,10 +353,14 @@ If connection is successfully, this delegate is triggered:
 }
 ```
 ## Error Handling
+### Main app
 Error handling comes with this delegate:
 ```objectivec
 - (void)catapush:(Catapush *)catapush didFailOperation:(NSString *)operationName withError:(NSError *)error;
 ```
+
+### Error codes
+
 
 The callback might be executed with the following error codes:
 
@@ -385,6 +390,21 @@ The callback might be executed with the following error codes:
 | 45001 = UPDATE_PUSH_TOKEN_INTERNAL_ERROR          | Internal error of the remote messaging service when updating the push token.                                                                                                                                                          | Nothing, it's handled automatically by the sdk.<br>An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption.                                                                                                                          |
 | 10 = NETWORK_ERROR,                               | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted. | Please check your internet connection and try to reconnect again.                                                                                                                                                                                                                                                 |
 | 12 = PUSH_TOKEN_UNAVAILABLE                       | Push token is not available.                                                                                                                                                                                                          | Nothing, it's handled automatically by the sdk.                                                                                                                                                                                                                                                                   |
+
+### Service
+Error can be handled in this method:
+```objectivec
+- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent;
+```
+
+| Error code                  | Description                                                                                                                                                                                                                              | Suggested strategy                                                                                                                                                                                                                                               |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CatapushCredentialsError    | App key, username or password not set                                                                                                                                                                                                    | Check the app id, the username and the password and retry.                                                                                                                                                                                                       |
+| CatapushNetworkError        | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted.    | Check underlyingError if any.<br>if (error.userInfo != nil) {<br>    NSError* underlyingError = error2.userInfo[NSUnderlyingErrorKey];<br>}<br><br>The underlyingError code can be one of these: https://github.com/Catapush/catapush-ios-sdk-pod#error-handling |
+| CatapushNoMessagesError,    | No message received                                                                                                                                                                                                                      | No new messages, this could happen if the message was already handled.                                                                                                                                                                                           |
+| CatapushFileProtectionError | The user receive a push notification but the device was not unlocked for at least one time after the boot.<br>User data is stored in an encrypted format on disk with ```NSFileProtectionCompleteUntilFirstUserAuthentication``` policy. | Check https://developer.apple.com/documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication for more information.                                                                                                                            |
+| CatapushConflictErrorCode   | The same user identifier has been logged on another device, or another process.                                                                                                                                                          | Please check that you are using a unique identifier for each device, even on devices owned by the same user.                                                                                                                                                     |
+
 
 ## Receiving Messages
 ```MessagesDispatchDelegate``` is the delegate in charge of messages dispatching. Messages are represented by a MessageIP object, and arrive in this delegate:

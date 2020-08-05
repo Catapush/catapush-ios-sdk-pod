@@ -373,9 +373,9 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 
 /**************************************************************
 ***        CATAPUSH NotificationServiceExtension        ***
-****************************************************************/
+ ****************************************************************/
 
 @interface CatapushNotificationServiceExtension : UNNotificationServiceExtension
-- (void)handleMessage:(MessageIP *) message;
-- (void)handleError:(NSError *) error;
+- (void)handleMessage:(MessageIP *) message withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
+- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
 @end
