@@ -48,7 +48,8 @@ enum {
     CatapushNetworkError,
     CatapushNoMessagesError,
     CatapushFileProtectionError,
-    CatapushConflictErrorCode
+    CatapushConflictErrorCode,
+    CatapushAppIsActive
 };
 
 /**
@@ -376,6 +377,6 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  ****************************************************************/
 
 @interface CatapushNotificationServiceExtension : UNNotificationServiceExtension
-- (void)handleMessage:(MessageIP *) message withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
-- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
+- (void)handleMessage:(MessageIP * _Nullable) message withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent;
+- (void)handleError:(NSError * _Nonnull) error withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent;
 @end
