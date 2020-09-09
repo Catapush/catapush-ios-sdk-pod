@@ -62,8 +62,8 @@ In order to process the push notification a Notification Service Extension is re
 Add a Notification Service Extension (in Xcode File -> New -> Target...) that extends ```CatapushNotificationServiceExtension```
 ```objectivec
 @interface CatapushNotificationServiceExtension : UNNotificationServiceExtension
-- (void)handleMessage:(MessageIP *) message withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
-- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler  withBestAttemptContent: (UNMutableNotificationContent*) bestAttemptContent;
+- (void)handleMessage:(MessageIP * _Nullable) message withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent;
+- (void)handleError:(NSError * _Nonnull) error withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent;
 @end
 ```
 
@@ -92,7 +92,7 @@ Example:
     [super didReceiveNotificationRequest:request withContentHandler:contentHandler];
 }
 
-- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent{
+- (void)handleError:(NSError * _Nonnull) error withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent{
     if (contentHandler != nil && bestAttemptContent != nil){
         if (error.code == CatapushCredentialsError) {
             bestAttemptContent.body = @"User not logged in";
@@ -116,7 +116,7 @@ Example:
     }
 }
 
-- (void)handleMessage:(MessageIP *) message withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent{
+- (void)handleMessage:(MessageIP * _Nullable) message withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent{
     if (contentHandler != nil && bestAttemptContent != nil){
         if (message != nil) {
             bestAttemptContent.body = message.body.copy;
@@ -391,7 +391,7 @@ The callback might be executed with the following error codes:
 ### Service
 Error can be handled in this method:
 ```objectivec
-- (void)handleError:(NSError *) error withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler withBestAttemptContent:(UNMutableNotificationContent *)bestAttemptContent;
+- (void)handleError:(NSError * _Nonnull) error withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent;
 ```
 
 | Error code                  | Description                                                                                                                                                                                                                              | Suggested strategy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
