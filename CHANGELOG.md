@@ -4,8 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.1.4] (05/10/2020)
+Bugfix to avoid crash that could occur on network error.
+
+Fix double notification for the ```Disconnected``` state while observing the connection state. 
+
 ## [2.1.3] (21/08/2020)
 Bugfix to avoid crash in notification service and stability improvement.
+
 New Catapush Error code (CatapushAppIsActive), it will be returned if the user recieve a push notification and the main application is active.
 
 ## [2.1.2] (05/08/2020)
