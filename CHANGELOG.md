@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.1.5] (19/10/2020)
+Optimization for logoutStoredUser function.
+
 ## [2.1.4] (05/10/2020)
 Bugfix to avoid crash that could occur on network error.
 

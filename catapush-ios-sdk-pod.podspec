@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "catapush-ios-sdk-pod"
-  s.version          = "2.1.4"
+  s.version          = "2.1.5"
   s.summary          = "New push management without VoIP"
   s.description      = <<-DESC
 "Catapush is a simple, reliable and scalable delivery API for transactional push notifications for websites and applications. Ideal for sending data-driven transactional notifications including targeted e-commerce and personalized one-to-one messages."
@@ -27,5 +27,7 @@ DESC
   s.resource = 'CatapushKit/CatapushLibBundle.bundle'
   s.preserve_paths = 'CatapushKit/**/*.*'
   s.vendored_libraries = 'CatapushKit/libCatapushLib.a'
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
 end
