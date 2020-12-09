@@ -5,6 +5,48 @@ Catapush is a simple, reliable and scalable delivery API for transactional push 
 
 Get delivery confirmation with real time status for each message sent and build intelligent messaging logic in your applications
 
+
+Table of Contents
+=================
+
+   * [Table of Contents](#table-of-contents)
+   * [Setup](#setup)
+      * [Create Catapush Application and get an App Key](#create-catapush-application-and-get-an-app-key)
+      * [Create and configure the authentication key](#create-and-configure-the-authentication-key)
+      * [Add a Notification Service Extension](#add-a-notification-service-extension)
+      * [App Groups](#app-groups)
+      * [AppDelegate](#appdelegate)
+      * [Push Notification](#push-notification)
+   * [Example projects](#example-projects)
+   * [Events Handling](#events-handling)
+      * [Connection Events](#connection-events)
+      * [Error Handling](#error-handling)
+         * [Main app](#main-app)
+         * [Error codes](#error-codes)
+         * [Service](#service)
+      * [Receiving Messages](#receiving-messages)
+      * [Reading Messages](#reading-messages)
+      * [Sending Messages](#sending-messages)
+      * [Fetching an attachment](#fetching-an-attachment)
+      * [Get optional data](#get-optional-data)
+   * [Multiuser](#multiuser)
+      * [Forced logout](#forced-logout)
+   * [Advanced](#advanced)
+      * [Messages Managers](#messages-managers)
+      * [Logging](#logging)
+      * [Manual library integration when using use_frameworks!](#manual-library-integration-when-using-use_frameworks)
+   * [Troubleshooting](#troubleshooting)
+      * [Raw notification](#raw-notification)
+               * [Wrong configuration](#wrong-configuration)
+               * [Crash](#crash)
+               * [Server side override](#server-side-override)
+   * [Extra](#extra)
+      * [Use the Console.app to access logs](#use-the-consoleapp-to-access-logs)
+      * [Retrieve MessageIP after tap on a notification](#retrieve-messageip-after-tap-on-a-notification)
+   * [Notes](#notes)
+   * [Author](#author)
+   * [License](#license)
+
 # Setup
 Catapush iOS sdk is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
@@ -13,6 +55,8 @@ pod "catapush-ios-sdk-pod"
 ```
 
 > **WARNING**: Since our library isn't a framework you cannot use `use_frameworks!` in your Podfile, if you have to use this flag you have to include the library manually [following this steps!](#manual-library-integration-when-using-use_frameworks)
+
+The minimun iOS version is 10.
 
 These are pre-requisites for setting up your application with Catapush:
 
@@ -318,7 +362,7 @@ Example (in your ```UNNotificationServiceExtension```):
 }
 ```
 
-## Example projects
+# Example projects
 [Obj-C](https://github.com/Catapush/catapush-ios-sdk-example)
 [Swift](https://github.com/Catapush/catapush-ios-swift-sdk-example)
 
@@ -398,7 +442,7 @@ Error can be handled in this method:
 |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | CatapushCredentialsError    | App key, username or password not set                                                                                                                                                                                                    | Check the app id, the username and the password and retry.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | CatapushNetworkError        | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted.    | Check underlyingError if any.<br>if (error.userInfo != nil) {<br>    NSError* underlyingError = error2.userInfo[NSUnderlyingErrorKey];<br>}<br><br>The underlyingError code can be one of these: https://github.com/Catapush/catapush-ios-sdk-pod#error-handling                                                                                                                                                                                                                                                                                                                                                                         |
-| CatapushNoMessagesError,    | No message received                                                                                                                                                                                                                      | No new messages, this could happen if the message was already handled.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| CatapushNoMessagesError    | No message received                                                                                                                                                                                                                      | No new messages, this could happen if the message was already handled.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | CatapushFileProtectionError | The user receive a push notification but the device was not unlocked for at least one time after the boot.<br>User data is stored in an encrypted format on disk with ```NSFileProtectionCompleteUntilFirstUserAuthentication``` policy. | Check https://developer.apple.com/documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication for more information.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | CatapushConflictErrorCode   | The same user identifier has been logged on another device, or another process.                                                                                                                                                          | Please check that you are using a unique identifier for each device, even on devices owned by the same user.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | CatapushAppIsActive         | The application is active, the notification will be handled by the main app.<br>In rare cases where the the main application goes into background a few microseconds later, a notification may still be displayed.                       | In rare cases where the the main application goes into background a few microseconds later, a notification may still be displayed and is not possibile to handle the notification so it's advisable to change the notification text to handle this rare case like this:<br>```bestAttemptContent.body = @"Please open the app to read the message";```<br><br>Otherwise it will be handled in the main app here:<br>```- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler;``` |
@@ -815,19 +859,121 @@ Go ahead to "Build Settings", select "All" tab
     * Find "Linking" section and fill "Other Linker Flags" with: -ObjC -lxml2
     * **Swift only**: find "Swift Compiler - General" and fill "Objective-C Bridging Header" with: ```<projectname>-Bridging-Header.h```
 
+# Troubleshooting
+## Raw notification
+The notification service extension is responsible to populate the notification content that will be presented to the user, see [Add a Notification Service Extension](https://github.com/Catapush/catapush-ios-sdk-pod#add-a-notification-service-extension).
+
+Normally the service will receive the message and populate the notification content with the content of the message or present the proper error message to the user (ex. user not logged in, message already received...)
+
+Sometimes however it can happen that the notification content pass through the Service unaltered, unmodified.
+This could happen for two reasons:
+1) Wrong configuration
+2) Crash
+
+##### Wrong configuration
+In this case the notification service extension will be completelly ignored and the notification will pass throught unmodified.
+
+The common reason is the wrong deployment target of the Service.
+Check if the deployment target of the Service is the same as the deployment target of the app, you could do that by following theese steps:
+[Add a Notification Service Extension](https://github.com/Catapush/catapush-ios-sdk-pod#add-a-notification-service-extension)
+
+##### Crash
+If the notification service extension crashes for whatever reason:
+1) It will not stop the Notification to be shown to the user.
+2) The unaltered push notification will be presented to the user.
+
+To catch the crash you could implement [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics?hl=en) that is a lightweight, realtime crash reporter, or you could track them manually by adding an UncaughtExceptionHandler to handle Objective-C exceptions and SignalHandlers.
+Here is an example that works both with objective-c and swift:
+[CrashEye](https://github.com/zixun/CrashEye/blob/master/CrashEye/Classes/CrashEye.swift)
+
+##### Server side override
+When you send a message you could set a custom message to prevent showing raw message to the user by populating the devicesData.ios.alert field. ([Api docs](https://www.catapush.com/docs-api?php#2.1-post---send-a-new-message))
+This field is the text that is showed to the user if there is some unexpected behaviour with the Notification Service Extension and for some reason iOS ignore the Notification Extension and just display the text of the native push notification.
 
 
-## Notes
+
+# Extra
+
+## Use the Console.app to access logs
+Console is a log viewer developed by Apple Inc. and included with macOS. It allows users to search through all of the system's logged messages.
+
+You can open the console via Spotlight or directly from the terminal with this command:
+```bash
+% open /System/Applications/Utilities/Console.app
+```
+
+Choose the desired device on the left to access its real time log.
+
+If you have enabled logging (https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/README.md#logging) you could easily filter them by searching for the ```--- CATAPUSHLIB ---``` prefix in the upper right corner.
+
+
+## Retrieve MessageIP after tap on a notification
+If your need to access the MessageIP after tap on a notification you have to link the notification to the specific MessageIP.
+
+The identifier property of a UNNotificationRequest object, that is the unique identifier for the notification request, could be used to create this link.
+
+Create a link between a MessageIP and a Notification using the messageIP identifier and the request identifier and save it in the shared UserDefaults in order to allow the main app to access the data.
+
+NotificationService (save the link):
+```objectivec
+@implementation NotificationService
+
+- (void)handleMessage:(MessageIP * _Nullable) message withContentHandler:(void (^_Nullable)(UNNotificationContent * _Nullable))contentHandler  withBestAttemptContent: (UNMutableNotificationContent* _Nullable) bestAttemptContent{
+    if (contentHandler != nil && bestAttemptContent != nil){
+        if (message != nil) {
+            bestAttemptContent.body = message.body.copy;
+            //We will save the link in the user defaults shared by both the app and the extension: https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/README.md#app-groups
+            NSUserDefaults* ud = [[NSUserDefaults alloc] initWithSuiteName:[[[NSBundle mainBundle] objectForInfoDictionaryKey:@"Catapush"] objectForKey:@"AppGroup"]];
+            NSString* pendingMessagesKey = @"pendingMessages";
+            NSDictionary* pendingMessages = [ud objectForKey:pendingMessagesKey];
+            NSMutableDictionary* newPendingMessages;
+            if (pendingMessages == nil) {
+                newPendingMessages = [[NSMutableDictionary alloc] init];
+            }else{
+                newPendingMessages = [pendingMessages mutableCopy];
+            }
+            [newPendingMessages setValue:message.messageId forKey:[self.receivedRequest identifier]];
+            [ud setValue:newPendingMessages forKey:pendingMessagesKey];
+            [ud synchronize];
+        }else{
+            bestAttemptContent.body = @"No new message";
+        }
+        contentHandler(bestAttemptContent);
+    }
+}
+
+@end
+```
+AppDelegate (retrieve the MessageIP):
+```objectivec
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
+    //tap on the notification
+    NSUserDefaults* ud = [[NSUserDefaults alloc] initWithSuiteName:[[[NSBundle mainBundle] objectForInfoDictionaryKey:@"Catapush"] objectForKey:@"AppGroup"]];
+    NSString* pendingMessagesKey = @"pendingMessages";
+    NSDictionary* pendingMessages = [ud objectForKey:pendingMessagesKey];
+    if (pendingMessages != nil && [pendingMessages objectForKey:response.notification.request.identifier] != nil) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"messageId == %@", [pendingMessages objectForKey:response.notification.request.identifier]];
+        NSArray *matches = [Catapush messagesWithPredicate:predicate];
+        if (matches.count){
+            //Exists one occurence of that Message IP
+            MessageIP* messageIP = [matches firstObject];
+        }
+    }
+    completionHandler();
+}
+```
+
+# Notes
 The contribution of the Catapush static library to IPA size is 650KB.
 The size of the static library archive file, compiled with ENABLE_BITCODE = 1, is 60MB (it included differents architecture object files).
 
 
-## Author
+# Author
 
 Alessandro Chiarotto, alessandro@catapush.com
 Felice De Luca, felice@catapush.com
 Matteo Corradin, matteo@catapush.com
 
-## License
+# License
 
 catapush-ios-sdk-pod is available under the Commercial license.See the LICENSE file for more info.
