@@ -3,6 +3,9 @@
 # Catapush iOS SDK Changelog
 
 
+#### 2.1.7 (22/12/2020)
+Improved speed when a new message is received
+
 #### 2.1.6 (09/12/2020)
 Bugfix to avoid a crash that could occur due to concurrency.
 
