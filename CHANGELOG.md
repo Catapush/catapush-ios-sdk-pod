@@ -2,6 +2,8 @@
 
 # Catapush iOS SDK Changelog
 
+#### 2.1.8 (25/01/2021)
+logoutStoredUser function will now also remove the stored credential from the keychain
 
 #### 2.1.7 (22/12/2020)
 Improved speed when a new message is received
