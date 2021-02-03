@@ -2,6 +2,9 @@
 
 # Catapush iOS SDK Changelog
 
+#### 2.1.9 (03/02/2021)
+Fixed a bug that prevented login during the update of the SDK
+
 #### 2.1.8 (25/01/2021)
 logoutStoredUser function will now also remove the stored credential from the keychain
 
