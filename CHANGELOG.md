@@ -2,14 +2,23 @@
 
 # Catapush iOS SDK Changelog
 
+#### 2.1.10 (16/02/2021)
+Added the possibility to manually handle the push notification register request passing false as ```withRequest``` flag in the method:
+```ruby
++ (void)registerUserNotification:(UIResponder *) appDelegate withRequest:(bool) withRequest;
+```
+Added 2 new error codes:
+```INTERNAL_NETWORK_ERROR``` that represents network errors that are handled automatically by the framework and don't require a retry.
+```UPLOAD_FILE_ERROR``` that represents an error during file upload.
+
 #### 2.1.9 (03/02/2021)
-Fixed a bug that prevented login during the update of the SDK
+Fixed a bug that prevented login during the update of the SDK.
 
 #### 2.1.8 (25/01/2021)
-logoutStoredUser function will now also remove the stored credential from the keychain
+logoutStoredUser function will now also remove the stored credential from the keychain.
 
 #### 2.1.7 (22/12/2020)
-Improved speed when a new message is received
+Improved speed when a new message is received.
 
 #### 2.1.6 (09/12/2020)
 Bugfix to avoid a crash that could occur due to concurrency.
@@ -48,7 +57,7 @@ Improved connection and retry management.
 
 Improved update of an expired session.
 
-#### 2.0.7] (01/04/2020)
+#### 2.0.7 (01/04/2020)
 ReplyTo support.
 
 Optional Data support.

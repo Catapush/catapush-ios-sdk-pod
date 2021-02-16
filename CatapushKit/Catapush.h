@@ -103,9 +103,10 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
     UPDATE_PUSH_TOKEN_NOT_FOUND_APPLICATION = 44042,
     UPDATE_PUSH_TOKEN_NOT_FOUND_USER = 44043,
     UPDATE_PUSH_TOKEN_INTERNAL_ERROR = 45001,
-    UPLOAD_FILE_INTERNAL_ERROR = 55001,
+    UPLOAD_FILE_ERROR = 55001,
     NETWORK_ERROR = 10,
     PUSH_TOKEN_UNAVAILABLE = 12,
+    INTERNAL_NETWORK_ERROR = 13
 };
 
 
@@ -223,10 +224,20 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
 + (MessageIP *)sendMessageWithText:(NSString *)text andChannel:(NSString *) channel andData:(NSData *)data ofType:(NSString *)mediaType replyTo:(NSString *) messageId;
 
 /**
- *  Registers for notifying the user with the following options:
+ *  Catapush will hook for didRegisterForRemoteNotificationsWithDeviceToken
+ *  in order to receive the device token
+ *  and registers for notifying the user with the following options:
  *  UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound.
  */
 + (void)registerUserNotification:(UIResponder *) appDelegate;
+
+/**
+ *  Catapush will hook for didRegisterForRemoteNotificationsWithDeviceToken
+ *  in order to receive the device token
+ *  @param appDelegate appDelegate
+ *  @param withRequest if true, registers for notifying the user with the following options UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound
+ */
++ (void)registerUserNotification:(UIResponder *) appDelegate withRequest:(bool) withRequest;
 
 
 //Library Status
