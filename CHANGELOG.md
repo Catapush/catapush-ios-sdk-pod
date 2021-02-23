@@ -2,6 +2,10 @@
 
 # Catapush iOS SDK Changelog
 
+#### 2.1.11 (23/02/2021)
+Fixed an error that could lead to a loop when couldn't establish a connection.
+Fixed an error that can cause a crash during NTP sync.
+
 #### 2.1.10 (16/02/2021)
 Added the possibility to manually handle the push notification register request passing false as ```withRequest``` flag in the method:
 ```ruby
