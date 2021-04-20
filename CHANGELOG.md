@@ -2,6 +2,15 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.1.12 (20/04/2021)
+##### Fixed
+- Fixed an error that could lead to a push notification message not being displayed due to concurrency.
+- Fixed an error that can cause a crash on stop.
+- Fixed crash on core data NSException due to disk full ([NSPersistentStoreCoordinator _coordinator_you_never_successfully_opened_the_database_disk_full:]).
+
+##### Integration changes required
+None
+
 ### 2.1.11 (23/02/2021)
 ##### Fixed
 - Fixed an error that could lead to a loop when couldn't establish a connection.
