@@ -35,6 +35,7 @@ Table of Contents
       * [Messages Managers](#messages-managers)
       * [Logging](#logging)
       * [Manual library integration when using use_frameworks!](#manual-library-integration-when-using-use_frameworks)
+      * [Handle badge counts](#handle-badge-counts)
    * [Troubleshooting](#troubleshooting)
       * [Raw notification](#raw-notification)
                * [Wrong configuration](#wrong-configuration)
@@ -862,6 +863,57 @@ Go ahead to "Build Settings", select "All" tab
     * Find "Linking" section and fill "Other Linker Flags" with: -ObjC -lxml2
     * **Swift only**: find "Swift Compiler - General" and fill "Objective-C Bridging Header" with: ```<projectname>-Bridging-Header.h```
 
+## Handle badge counts
+You can manage the badge by setting it, for example, to the number of messages still unread and reset them when the user opens the app.
+
+```objectivec
+//NotificationService
+
+override func handleMessage(_ message: MessageIP?, withContentHandler contentHandler: ((UNNotificationContent?) -> Void)?, withBestAttempt bestAttemptContent: UNMutableNotificationContent?) {
+    if let contentHandler = contentHandler, let bestAttemptContent = bestAttemptContent {
+        if (message != nil) {
+            bestAttemptContent.body = message!.body;
+        }else{
+            bestAttemptContent.body = NSLocalizedString("no_message", comment: "");
+        }
+        
+        //Set the badge to the value equal to the number of messages still to be read
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MessageIP")
+        request.predicate = NSPredicate(format: "status = %i", MESSAGEIP_STATUS.MessageIP_NOT_READ.rawValue)
+        request.includesSubentities = false
+        do {
+            let msgCount = try CatapushCoreData.managedObjectContext().count(for: request)
+            bestAttemptContent.badge = NSNumber(value: msgCount)
+        } catch _ {
+        }
+            
+        contentHandler(bestAttemptContent);
+    }
+}
+```
+
+```objectivec
+//AppDelegate
+
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    // Override point for customization after application launch.
+    FirebaseApp.configure()
+    Catapush.enableLog(false)
+    Catapush.setAppKey(Const.appKey)
+    Catapush.registerUserNotification(self)
+    let firstTime = Defaults[\.firstTime]
+    if firstTime {
+        Catapush.logoutStoredUser(true)
+        Defaults[\.firstTime] = false
+    }
+    Defaults[\.didFinishLaunchingWithOptions] = true
+
+    application.applicationIconBadgeNumber = 0;
+    UNUserNotificationCenter.current().delegate = self
+        
+    return true
+}
+```
 # Troubleshooting
 ## Raw notification
 The notification service extension is responsible to populate the notification content that will be presented to the user, see [Add a Notification Service Extension](https://github.com/Catapush/catapush-ios-sdk-pod#add-a-notification-service-extension).
