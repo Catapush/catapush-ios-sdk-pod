@@ -2,6 +2,17 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.1.13 (25/05/2021)
+##### Fixed
+- Fixed a bug to allow new customers to connect to the correct endpoint.
+- Changed name of mediaPreview property of the MessageIP to imageMediaPreview.
+
+##### Added
+- UPLOAD_FILE_MAX_SIZE_EXCEEDED error if the attachment is too big (8MB).
+
+##### Integration changes required
+Replace usage of mediaPreview property of the MessageIP with imageMediaPreview.
+
 ### 2.1.12 (20/04/2021)
 ##### Fixed
 - Fixed an error that could lead to a push notification message not being displayed due to concurrency.

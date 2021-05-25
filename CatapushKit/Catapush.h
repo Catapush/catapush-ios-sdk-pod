@@ -104,6 +104,7 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
     UPDATE_PUSH_TOKEN_NOT_FOUND_USER = 44043,
     UPDATE_PUSH_TOKEN_INTERNAL_ERROR = 45001,
     UPLOAD_FILE_ERROR = 55001,
+    UPLOAD_FILE_MAX_SIZE_EXCEEDED = 54001,
     NETWORK_ERROR = 10,
     PUSH_TOKEN_UNAVAILABLE = 12,
     INTERNAL_NETWORK_ERROR = 13
@@ -146,7 +147,7 @@ typedef NS_ENUM(NSInteger, CatapushErrorCode)
 
 //Media Preview
 - (bool)hasMediaPreview;
-- (UIImage *)mediaPreview;
+- (UIImage * _Nullable)imageMediaPreview;
 
 - (void)downloadMediaWithCompletionHandler:(void (^)(NSError *error, NSData *data))completionHandler;
 

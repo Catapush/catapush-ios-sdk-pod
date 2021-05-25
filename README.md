@@ -431,6 +431,7 @@ The callback might be executed with the following error codes:
 | 44043=UPDATE_PUSH_TOKEN_NOT_FOUND_USER | User not found | Please verify your identifier and password validity. The user might have been deleted from the Catapush app (via API or from the dashboard) or the password has changed.<br><br>You should not keep retrying, delete the stored credentials.<br>Provide a new identifier to this installation to solve the issue. |
 | 45001 = UPDATE_PUSH_TOKEN_INTERNAL_ERROR | Internal error of the remote messaging service when updating the push token. | Nothing, it's handled automatically by the sdk.<br>An unexpected internal error on the remote messaging service has occurred.<br>This is probably due to a temporary service disruption. |
 | 55001 = UPLOAD_FILE_ERROR | There was a problem while sending an attachment.<br><br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted. | You could check underlyingError to obtain the error just for debug.<br>if (error.userInfo != nil) {<br>  NSError* underlyingError = error.userInfo[NSUnderlyingErrorKey];<br>}<br>                 <br>Please try to send the message again in a few minutes. |
+| 54001 = UPLOAD_FILE_MAX_SIZE_EXCEEDED | The attachment is too big, it must not be larger than 8MB. | Please reduce the attachment size. |
 | 10 = NETWORK_ERROR | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted. | Please check your internet connection and try to reconnect again. |
 | 13 = INTERNAL_NETWORK_ERROR | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted. | Nothing, it's handled automatically by the sdk. Just for debug.<br><br>You could check underlyingError to obtain the error just for debug.<br>if (error.userInfo != nil) {<br>  NSError* underlyingError = error.userInfo[NSUnderlyingErrorKey];<br>} |
 | 12 = PUSH_TOKEN_UNAVAILABLE | Push token is not available. | Nothing, it's handled automatically by the sdk. |
@@ -533,7 +534,7 @@ MessageIP questi sono i vari metodi e proprietà:
 - (bool)hasMedia;
 - (bool)isMediaReady;
 - (bool)hasMediaPreview;
-- (UIImage *)mediaPreview;
+- (UIImage * _Nullable)imageMediaPreview;
 - (void)downloadMediaWithCompletionHandler:(void (^)(NSError *error,
 NSData *data))completionHandler;
 // ....
