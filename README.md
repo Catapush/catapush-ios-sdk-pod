@@ -41,6 +41,7 @@ Table of Contents
                * [Wrong configuration](#wrong-configuration)
                * [Crash](#crash)
                * [Server side override](#server-side-override)
+      * [Disable Notification Service during debug](#disable-notification-service-during-debug)
    * [Extra](#extra)
       * [Use the Console.app to access logs](#use-the-consoleapp-to-access-logs)
       * [Retrieve MessageIP after tap on a notification](#retrieve-messageip-after-tap-on-a-notification)
@@ -946,7 +947,22 @@ Here is an example that works both with objective-c and swift:
 When you send a message you could set a custom message to prevent showing raw message to the user by populating the devicesData.ios.alert field. ([Api docs](https://www.catapush.com/docs-api?php#2.1-post---send-a-new-message))
 This field is the text that is showed to the user if there is some unexpected behaviour with the Notification Service Extension and for some reason iOS ignore the Notification Extension and just display the text of the native push notification.
 
+## Disable Notification Service during debug
+In order to debug the library correctly, it is necessary to disable the action of the notification service to prevent it from handling the message during debugging.
+That is necessary because if a breakpoint is triggered while receiving a message, the Notification Service get called and think that the application is closed because it cannot communicate with the main app.
+In order to handle this case we can bypass all the logic inside the Notification Service by overriding the didReceive method.
 
+```objectivec
+- (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
+    contentHandler(request.content);
+}
+```
+
+```objectivec
+override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+    contentHandler(request.content)
+}
+```
 
 # Extra
 

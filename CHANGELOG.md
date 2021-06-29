@@ -2,6 +2,13 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.1.14 (29/06/2021)
+##### Fixed
+- Bugfix to avoid a crash that could occur due to concurrency.
+
+##### Integration changes required
+None
+
 ### 2.1.13 (25/05/2021)
 ##### Fixed
 - Fixed a bug to allow new customers to connect to the correct endpoint.
