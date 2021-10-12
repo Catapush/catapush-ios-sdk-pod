@@ -2,6 +2,14 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.1.15 (12/10/2021)
+##### Fixed
+- Bugfix to avoid a crash that could occur due to concurrency after logout.
+- Fixed a bug that could cause a crash during NTP sync.
+
+##### Integration changes required
+None
+
 ### 2.1.14 (29/06/2021)
 ##### Fixed
 - Bugfix to avoid a crash that could occur due to concurrency.
