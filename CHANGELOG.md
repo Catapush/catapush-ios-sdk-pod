@@ -2,6 +2,13 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.1.16 (11/01/2022)
+##### Fixed
+- Fixed a bug that could cause a null to be sent to the server.
+
+##### Integration changes required
+None
+
 ### 2.1.15 (12/10/2021)
 ##### Fixed
 - Bugfix to avoid a crash that could occur due to concurrency after logout.
