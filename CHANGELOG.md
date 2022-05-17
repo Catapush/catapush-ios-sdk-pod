@@ -2,6 +2,13 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.1.17 (17/05/2022)
+##### Fixed
+- Added a new error code when disk space runs out. (DISK_IS_FULL)
+
+##### Integration changes required
+None
+
 ### 2.1.16 (11/01/2022)
 ##### Fixed
 - Fixed a bug that could cause a null to be sent to the server.
