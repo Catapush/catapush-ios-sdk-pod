@@ -436,6 +436,7 @@ The callback might be executed with the following error codes:
 | 10 = NETWORK_ERROR | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted. | Please check your internet connection and try to reconnect again. |
 | 13 = INTERNAL_NETWORK_ERROR | The SDK couldn’t establish a connection to the Catapush remote messaging service.<br>The device is not connected to the internet or it might be blocked by a firewall or the remote messaging service might be temporarily disrupted. | Nothing, it's handled automatically by the sdk. Just for debug.<br><br>You could check underlyingError to obtain the error just for debug.<br>if (error.userInfo != nil) {<br>  NSError* underlyingError = error.userInfo[NSUnderlyingErrorKey];<br>} |
 | 12 = PUSH_TOKEN_UNAVAILABLE | Push token is not available. | Nothing, it's handled automatically by the sdk. |
+| 14 = DISK_IS_FULL | No space left on device. | Remove temp files and/or notify the user. |
 
 
 ### Service
