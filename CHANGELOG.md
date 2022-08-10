@@ -2,6 +2,13 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.1.18 (10/08/2022)
+##### Fixed
+- Fixed nullability warning when compiling for swift.
+
+##### Integration changes required
+Need to change the signature of methods to handle the new nullability.
+
 ### 2.1.17 (17/05/2022)
 ##### Fixed
 - Added a new error code when disk space runs out. (DISK_IS_FULL)
