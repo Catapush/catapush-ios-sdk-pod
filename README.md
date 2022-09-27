@@ -58,7 +58,7 @@ pod "catapush-ios-sdk-pod"
 
 > **WARNING**: Since our library isn't a framework you cannot use `use_frameworks!` in your Podfile, if you have to use this flag you have to include the library manually [following this steps!](#manual-library-integration-when-using-use_frameworks)
 
-The minimun iOS version is 10.
+The minimun iOS version is 11.
 
 These are pre-requisites for setting up your application with Catapush:
 

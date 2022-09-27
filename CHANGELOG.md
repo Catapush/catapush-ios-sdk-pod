@@ -2,6 +2,13 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.2.0 (27/09/2022)
+##### Fixed
+- Compatibility update for iOS 16 and Xcode 14.
+
+##### Integration changes required
+The minimun iOS version is 11
+
 ### 2.1.18 (10/08/2022)
 ##### Fixed
 - Fixed nullability warning when compiling for swift.
