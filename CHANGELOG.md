@@ -2,7 +2,7 @@
 
 # Catapush iOS SDK Changelog
 
-### 2.2.1 (27/09/2022)
+### 2.2.1 (13/10/2022)
 ##### Fixed
 - Fixed an issue to avoid unnecessary requests.
 
