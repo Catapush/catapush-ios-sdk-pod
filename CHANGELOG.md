@@ -2,6 +2,11 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.2.2 (22/11/2022)
+##### Added
+- Fix a concurrency issue that can cause multiple read request
+- Fix an issue that can cause a missing delivery message
+
 ### 2.2.1 (13/10/2022)
 ##### Fixed
 - Fixed an issue to avoid unnecessary requests.
