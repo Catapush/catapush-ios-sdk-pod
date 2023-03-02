@@ -686,6 +686,11 @@ in your selector as the one declared above:
 ```
 
 ## Messages Managers
+Retrieve all received messages
+```objectivec
+    Catapush.allMessages()
+```
+
 Catapush iOS SDK manages the messages using the power of CoreData Framework. This allow an easy integration of the library and management of the ```MessageIP``` object life-cicle.
 
 CatapushCoreData exposes:
