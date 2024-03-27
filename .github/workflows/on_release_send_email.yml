@@ -1,24 +1,24 @@
 name: Send email to customers on iOS changelog update
+
 on:
   push:
     paths:
       - 'CHANGELOG.md'
+
 jobs:
   send_email:
     runs-on: ubuntu-latest
     steps:
       - uses: dawidd6/action-send-mail@v3
         with:
-          server_address: dev.catapush.rocks
-          server_port: 587
-          secure: false
-          ignore_cert: true
-          username: ${{secrets.SMTP_USER}}
-          password: ${{secrets.SMTP_PASSWORD}}
-          subject: A new release of the Catapush iOS SDK is available
-          to: ${{secrets.EMAIL_RECIPIENTS}}
-          from: Catapush Updates <sdk-updates@catapush.com>
-          reply_to: No-Reply <no-reply@catapush.com>
-          html_body: >
-            <html><body style="font-family: sans-serif;"><p>A new release of the Catapush iOS SDK is available.</p><p>Please check the <a href="https://github.com/Catapush/catapush-ios-sdk-pod/blob/master/CHANGELOG.md">official changelog</a> for further details.</p><p><br/>--<br/>Catapush Team<br/><a href="mailto:info@catapush.com">info@catapush.com</a> | <a href="https://www.catapush.com/">www.catapush.com</a><br/>Catapush S.r.l.<br/>Via Copernico 38 - 20125 Milano<br/>Tel <a href="tel:+390221118062">+39.02.21118062</a></p></body></html>
+          server_address: email-smtp.eu-west-1.amazonaws.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          to: ${{ vars.EMAIL_RECIPIENTS }}
+          from: ${{ vars.EMAIL_FROM }}
+          reply_to: ${{ vars.EMAIL_REPLY_TO }}
+          subject: ${{ vars.EMAIL_SUBJECT }}
+          html_body: ${{ vars.EMAIL_BODY }}
           priority: low
