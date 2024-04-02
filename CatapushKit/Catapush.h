@@ -341,9 +341,9 @@ typedef NS_ENUM(NSInteger, CatapushStatus)
  *
  * To change a user (logout and login) it's necessary to use the block version method (in the completion you should i.e. start a new session) otherwise you can experiment a race condition.
 */
-+ (void)logoutStoredUser:(bool) forced;
++ (void)logoutStoredUser:(bool) forced __deprecated_msg("Use logoutStoredUser withCompletion instead.");
 + (void)logoutStoredUser:(bool) forced withCompletion:(void (^_Nullable)(void))success failure:(void (^_Nullable)(void))failure;
-+ (void)logoutStoredUser;
++ (void)logoutStoredUser __deprecated_msg("Use logoutStoredUser withCompletion instead.");
 + (void)logoutStoredUserWithCompletion:(void (^_Nullable)(void))success failure:(void (^_Nullable)(void))failure;
 
 /**

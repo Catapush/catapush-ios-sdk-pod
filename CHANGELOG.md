@@ -2,18 +2,35 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.2.4 (02/04/2024)
+##### Added
+- Added PrivacyInfo.xcprivacy file.
+- logoutStoredUser deprecated, use logoutStoredUserWithCompletion
+
+##### Integration changes required
+The minimun iOS version is 12
+
 ### 2.2.3 (12/09/2023)
 ##### Fixed
 - Fixed an issue to avoid unnecessary requests.
+
+##### Integration changes required
+None
 
 ### 2.2.2 (22/11/2022)
 ##### Added
 - Fix a concurrency issue that can cause multiple read request
 - Fix an issue that can cause a missing delivery message
 
+##### Integration changes required
+None
+
 ### 2.2.1 (13/10/2022)
 ##### Fixed
 - Fixed an issue to avoid unnecessary requests.
+
+##### Integration changes required
+None
 
 ### 2.2.0 (27/09/2022)
 ##### Fixed
