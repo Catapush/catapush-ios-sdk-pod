@@ -2,6 +2,13 @@
 
 # Catapush iOS SDK Changelog
 
+### 2.2.5 (27/04/2026)
+##### Changed
+- The SDK is now distributed as an XCFramework (`Catapush.xcframework`) instead of a fat static library, with native arm64 simulator support for Apple Silicon Macs.
+
+##### Integration changes required
+If your project's Podfile or `.pbxproj` contains the workaround `EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64` (added to support previous versions of the SDK on Apple Silicon), please remove it after upgrading. The pod no longer sets it, and keeping it locally will prevent your app from running natively on the iOS Simulator on Apple Silicon.
+
 ### 2.2.4 (02/04/2024)
 ##### Added
 - Added PrivacyInfo.xcprivacy file.
